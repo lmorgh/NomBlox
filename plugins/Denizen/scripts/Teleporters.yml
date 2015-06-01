@@ -1,0 +1,29 @@
+Teleporters:
+  type: world
+  events:
+    on player enters nHubtoSurvival:
+    - narrate "TELE PORTER"
+    - teleport <player> l@nSpawnSurvival
+    on player enters nHubtoCreative:
+    - narrate "TELE PORTER"
+    - teleport <player> l@nSpawnCreative
+    on player enters nHubtoTutorial:
+    - narrate "TELE PORTER"
+    - teleport <player> l@nSpawnTutorial
+    on player enters nHubtoParkour:
+    - narrate "UNDER CONSTRUCTION"
+    on player enters nSurvivaltoHub:
+    - narrate "TELE PORTER"
+    - teleport <player> l@nSpawnHub
+ 
+    # on server starts:
+    # - if !<server.list_notables[cuboids].contains[cu@nHubtoSurvival]> { - note cu@-10,0,-1,Hub|-10,2,1,Hub as:nHubtoSurvival }
+    # - if !<server.list_notables[cuboids].contains[cu@nHubtoCreative]> { - note cu@-1,0,-10,Hub|1,2,-10,Hub as:nHubtoCreative }
+    # - if !<server.list_notables[cuboids].contains[cu@nHubtoTutorial]> { - note cu@10,0,-1,Hub|10,2,1,Hub as:nHubtoTutorial }
+    # - if !<server.list_notables[cuboids].contains[cu@nHubtoParkour]> { - note cu@1,0,10,Hub|-1,2,10,Hub as:nHubtoParkour }
+    # - if !<server.list_notables[cuboids].contains[cu@nSurvivaltoHub]> { - note cu@-686,83,1352,svet|-686,85,1354,svet as:nSurvivaltoHub }
+    
+    # - if !<server.list_notables[locations].contains[l@nSpawnSurvival]> { - note l@-695.5,84.0,1353.5,-0.15000184,89.40004,svet as:nSpawnSurvival }
+    # - if !<server.list_notables[locations].contains[l@nSpawnCreative]> { - note l@0.5,5.0,0.5,creative as:nSpawnCreative }
+    # - if !<server.list_notables[locations].contains[l@nSpawnTutorial]> { - note l@-9.562925015407657,63.0,78.97880177025766,0.75001276,97.650024,Tutorial as:nSpawnTutorial }
+    # - if !<server.list_notables[locations].contains[l@nSpawnHub]> { - note l@0.5,1.0,0.5,-0.30006826,89.55,Hub as:nSpawnHub }

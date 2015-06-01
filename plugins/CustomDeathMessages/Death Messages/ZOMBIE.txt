@@ -1,0 +1,8 @@
+%no-default%
+###&7%player% &cgot their head bashed in by a zombie.
+###&7%player% &cgot rekt by a zombie.
+###&7%player% &cmistook a zombie for the postman. They dieded.
+###&cThere's no pretty way to say this. &7%player% &cjust got destroyed by a zombie.
+###&7%player%&c's brain was too tempting for zombie to resist.
+###&cZombie ate whatever brain there was in &7%player%&c's skull.
+###&7%player% &cexperienced the dawn of the dead.

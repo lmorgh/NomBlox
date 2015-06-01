@@ -1,0 +1,5 @@
+%no-default%
+###&7%player% &caggroed the wrong bunch.
+###&cCould &7%player% &ckill a pig? Probably. Could they kill a zombie pigman? Guess not.
+###Oink oink, &7%player%&c.
+###&7%player% &cwas amazed by zombie pigman's golden sword. Amazed and decapitated.

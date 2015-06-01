@@ -1,0 +1,5 @@
+%no-default%
+###That was a particularly nasty specimen of slime, &7%player% &cthought as they were dying.
+###&7%player% &cis really ashamed that a mere slime was their killer.
+###&7%player% &cslipped on slime.
+###&7%player% &cwanted a peanut butter and jelly sandwich. Slime said no.

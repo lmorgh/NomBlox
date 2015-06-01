@@ -1,0 +1,4 @@
+%no-default%
+###&7%player% &cfasted for too long.
+###&cFood wasn't on &7%player%&c's mind. Or in his stomach.
+###&7%player% &cwould eat dirt if they could.

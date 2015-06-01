@@ -1,0 +1,4 @@
+%no-default%
+###&7%player% &coverlooked the beware dog sign.
+###&7%player% &crubbed a wolf the wrong way.
+###&cWolf was hungry for &7%player%&c's meat.

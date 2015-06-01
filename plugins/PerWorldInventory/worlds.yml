@@ -1,0 +1,18 @@
+groups:
+  survival:
+    worlds:
+    - svet
+    - svet_nether
+    - svet_the_end
+    - drugi
+    - Dark
+  creative:
+    worlds:
+    - creative
+    - flatw
+  hub:
+    worlds:
+    - Hub
+  tutorial:
+    worlds:
+    - Tutorial

@@ -1,0 +1,333 @@
+Djordj:
+  type: assignment
+  actions:
+    on assignment:
+    - trigger name:chat state:true radius:4
+  interact scripts:
+  - 10 Djordj_interact
+  
+Djordj_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        
+        - if !<player.has_flag[Djordj_met]>
+        {
+          - narrate "<dark_aqua>A young man is leaning back against a tree, deeply focused on a piece of paper in his hand. As you approach, he lifts his head, but after a moment his eyes slip back to the paper, scribbling a few words, then crossing them out almost immediately. He seems to be talking to himself almost inaudibly."
+          - wait 10
+          - narrate format:npcf "No, no... how about this... hmm, better. But no."
+          - wait 4
+          - narrate "<dark_aqua>He doesn't seem too concerned with you being here. Actually, it looks like he already forgot all about your presence. You decide to remind him."
+          - wait 7
+          - narrate format:youf "Hello there."
+          - wait 2
+          - narrate "<dark_aqua>The man doesn't seem to have heard you, as he keeps writing something on his piece of paper, mumbling to himself in the process. Again you try to catch his attention."
+          - wait 8
+          - narrate format:youf "Hi. I can see you're busy with something, are you writing a letter to someone?"
+          - wait 5
+          - narrate "<dark_aqua>The man's head violently twitches as if someone had spilled a bucket of cold water on his head. He gives you a look of disbelief you don't remember earning."
+          - wait 7
+          - narrate format:npcf "A letter you say? A LETTER? My goodness, have you no respect for metrical composition? For linguistic representation of feeling? No respect for exhibition of human sensitivity? Have you no respect at all for the finest of all arts - for poetry?"
+          - wait 10
+          - narrate format:youf "I think we got off on the wrong foot. I like poetry. I actually wrote a few pieces myself. I just meant if you're writing a poem to send in a letter."
+          - wait 8
+          - narrate "<dark_aqua>Luckily the man can't tell that was a big fat lie, and he promptly corrects his attitude towards you."
+          - wait 5
+          - narrate format:npcf "I apologise to have misinterpreted your words, 'twas not my intent. On the contrary, to have found a fellow poet, that's exquisitely marvelous!"
+          - wait 8
+          - narrate "<dark_aqua>Obviously you have a knack for getting out of sticky situations like this."
+          - wait 5
+          - flag player Djordj_met
+        }
+        - narrate format:npcf "Since you claim to know a thing or two about poetry, perhaps you could assist me with my...predicament. I would read a few lines of my work in progress, and - entirely for your enjoyment - you could propose an idea where I'm stuck. Could you spare a moment?"
+        - wait 1
+        - narrate "<gray>(yes/no)"
+        - flag player npc_engaged:!
+        
+      chat trigger:
+        1:
+          trigger: /regex:(?i)Yes|Yeah|ja|sure\+REPLACE:<yellow>I would be delighted./
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+          - wait 2
+          - narrate format:npcf "Very well. Khm khm!"
+          - run Stanza1
+          - zap 2
+          - flag player npc_engaged:!
+        2:
+          trigger: /regex:(?i)No|Nope|Nah\+REPLACE:<yellow>I must apologise, perhaps another time./
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+          - wait 1
+          - narrate format:npcf "That's most unfortunate. Please, make haste with your errands and come help me with this conundrum as soon as you possibly can."
+          - flag player npc_engaged:!
+        unknown: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate format:npcf "What on Earth are you blabbering about?"
+            - narrate format:npcf "You'll have to excuse me, I do not think I understand what you mean."
+            - narrate format:npcf "I don't understand what you mean."       
+            - narrate format:npcf "I don't know what you're saying." 
+          }
+    2:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - narrate format:npcf "What, do you want me to repeat? I suppose a work that wonderful deserves to be read again."
+        - run Stanza1
+        - flag player npc_engaged:!
+                
+      chat trigger:
+        1:
+          trigger: /regex:(?i)1|one|sheep|flock\+REPLACE:<yellow>Like sheep in a flock!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "Oh, I got it! _Like_an_army_of_frogs_!"
+          - wait 3
+          - narrate "<dark_aqua><npc.name> writes his line down, and then looks at you."
+          - wait 3
+          - narrate format:npcf "Did you say something? Never mind, I got the perfect line."
+          - wait 3
+          - narrate format:npcf "Let's move on to the second stanza, shall we?"
+          - run Stanza2
+          - flag player npc_engaged:!
+          - zap 3
+        2:
+          trigger: /regex:(?i)2|two|odd|fellow\+REPLACE:<yellow>Like yellow stained rock!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "Yes, that's it! _Like_an_army_of_frogs_! That's perfect."
+          - wait 3
+          - narrate "<dark_aqua><npc.name> writes his line down, and then looks at you."
+          - wait 3
+          - narrate format:npcf "I hope I misheard your comment. I mean, yellow stained rock, pff! Get on my level."
+          - wait 3
+          - narrate format:npcf "Let's move on to the second stanza, shall we?"
+          - run Stanza2
+          - flag player npc_engaged:!
+          - zap 3
+        3:
+          trigger: /regex:(?i)3|three|shock\+REPLACE:<yellow>It would be a shock!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "Ooh ooh ooh! _Like_an_army_of_frogs_! That's shockingly genius."
+          - wait 4
+          - narrate "<dark_aqua><npc.name> quickly scribbles the line down, completely disregarding your suggestion."
+          - wait 3
+          - narrate format:npcf "Let's move on to the second stanza, shall we?"
+          - run Stanza2
+          - flag player npc_engaged:!
+          - zap 3
+          
+    3:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - narrate format:npcf "What, do you want me to repeat? I suppose a work that wonderful deserves to be read again."
+        - run Stanza2
+        - flag player npc_engaged:!
+        
+      chat trigger:
+        1:
+          trigger: /regex:(?i)1|one|jello\+REPLACE:<yellow>It looks just like jello!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "_Could_it_be_melon?_ Yes, that's it!"
+          - wait 3
+          - narrate "<dark_aqua><npc.name> seems so proud of himself as he writes down his gem of creativity."
+          - wait 4
+          - narrate format:npcf "For some odd reason I'm in a mood for jello. But let's finish this poem beforehand!"
+          - run Stanza3
+          - flag player npc_engaged:!
+          - zap 4
+        2:
+          trigger: /regex:(?i)2|two|odd|fellow\+REPLACE:<yellow>It's quite an odd fellow!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "An odd fellow, who? Could it be melon? Oh wait, _Could_it_be_melon?_ is a perfect line! I'm astonishing."
+          - wait 6
+          - narrate "<dark_aqua>The paper makes a scratching sound as <npc.name> puts his words into writing."
+          - wait 4
+          - narrate format:npcf "Let us proceed with the matter at hand."
+          - run Stanza3
+          - flag player npc_engaged:!
+          - zap 4
+        3:
+          trigger: /regex:(?i)3|three|marshmallow\+REPLACE:<yellow>It smells like marshmallow!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "The perfect line just came to me. _Could_it_be_melon?_ Yes, that's the line!"
+          - wait 5
+          - narrate "<dark_aqua>The paper makes a scratching sound as <npc.name> puts his words into writing."
+          - wait 4
+          - narrate format:npcf "Now let us move on to the third and last stanza."
+          - run Stanza3
+          - flag player npc_engaged:!
+          - zap 4
+          
+    4:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - narrate format:npcf "What, do you want me to repeat? I suppose a work that wonderful deserves to be read again."
+        - run Stanza3
+        - flag player npc_engaged:!
+        
+      chat trigger:
+        1:
+          trigger: /regex:(?i)1|one|ceiling\+REPLACE:<yellow>When I stare at the ceiling!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "Hummm... I'm not sure about that. I don't have a ceiling to stare at. I even pee outside. Wait, that's it, that's the line! _When_I_am_peeing_!"
+          - wait 8
+          - narrate "<dark_aqua>As he's scribbling his line, you can't help but think that <npc.name> has not mastered the concept of rhyme just yet."
+          - wait 7
+          - run PoemDone
+          - zap 5
+          - flag player npc_engaged:!
+        2:
+          trigger: /regex:(?i)2|two|apples|peeling\+REPLACE:<yellow>When apples I'm peeling!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 3
+          - narrate format:npcf "What? I don't peel my apples, vitamins in the peel help me pee better. That's it, I just got it! _When_I_am_peeing_, that's my line!"
+          - wait 8
+          - narrate "<dark_aqua>As he's scribbling his line, you can't help but think that <npc.name> has not mastered the concept of rhyme just yet."
+          - wait 7
+          - run PoemDone
+          - zap 5
+          - flag player npc_engaged:!
+        3:
+          trigger: /regex:(?i)3|three|thought|appealing\+REPLACE:<yellow>A thought so appealing!/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - narrate format:npcf "The only thought that appeals to me right now is the thought of me peeing. Wait, that's it, that's the line! _When_I_am_peeing_!"
+          - wait 8
+          - narrate "<dark_aqua>As he's scribbling his line, you can't help but think that <npc.name> has not mastered the concept of rhyme just yet."
+          - wait 7
+          - run PoemDone
+          - zap 5
+          - flag player npc_engaged:!
+        
+    5:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - random
+        {
+          - narrate format:npcf "I hope YELLOW will be a success."
+          - narrate format:npcf "I'm already working on another piece of poetry. I have named it GREEN."
+          - narrate format:npcf "I must thank you for your contribution to my fame. I'm still waiting to sign my first autograph though."
+          - narrate format:npcf "I just thought of 3 rhymes to the word 'orange'."
+        }
+        - flag player npc_engaged:!
+        
+
+Stanza1:
+  type: task
+  script:
+  - wait 4
+  - narrate "<&nl>"
+  - narrate "<yellow>YELLOW <gray>by Djordj"
+  - narrate "<&nl>"
+  - wait 3
+  - narrate "Is yellow a colour"
+  - wait 2
+  - narrate "of only one block"
+  - wait 2
+  - narrate "or do others follow"
+  - wait 2
+  - narrate "...."
+  - wait 1
+  - narrate "<&nl>"
+  - narrate "<gray>Suggest a line for Djordj (type the number to suggest that line)"
+  - ^narrate "1 - <gold>Like sheep in a flock"
+  - ^narrate "2 - <gold>Like yellow stained rock"
+  - ^narrate "3 - <gold>It would be a shock"
+          
+Stanza2:
+  type: task
+  script:
+  - wait 3
+  - narrate "<&nl>"
+  - narrate "I sit here thinking"
+  - wait 2
+  - narrate "of a block that is yellow"
+  - wait 2
+  - narrate "what is this thingy"
+  - wait 2
+  - narrate "...."
+  - wait 1
+  - narrate "<&nl>"
+  - narrate "<gray>Suggest a line for Djordj (type the number to suggest that line)"
+  - ^narrate "1 - <gold>It looks just like jello"
+  - ^narrate "2 - <gold>It's quite an odd fellow"
+  - ^narrate "3 - <gold>It smells like marshmallow"
+
+Stanza3:
+  type: task
+  script:
+  - wait 3
+  - narrate "<&nl>"
+  - narrate "Is yellow a colour"
+  - wait 2
+  - narrate "or is it a feeling"
+  - wait 2
+  - narrate "that's what I ponder"
+  - wait 2
+  - narrate "...."
+  - wait 1
+  - narrate "<&nl>"
+  - narrate "<gray>Suggest a line for Djordj (type the number to suggest that line)"
+  - ^narrate "1 - <gold>When I stare at the ceiling"
+  - ^narrate "2 - <gold>When apples I'm peeling"
+  - ^narrate "3 - <gold>A thought so appealing"
+  
+PoemDone:
+  type: task
+  script:
+  - narrate format:npcf "Voila! It's done, it's finished, it's polished, it's a masterpiece! I could not have done this without you."
+  - wait 7
+  - narrate format:npcf "Come to think of it, you were not of much help after all. But sometimes that's all the help a true genius needs."
+  - wait 7
+  - narrate format:npcf "I'm presenting you with a copy of this poem. Go spread the word of <npc.name>, the virtuoso of modern poetry!"
+  - give YellowPoem
+  
+YellowPoem:
+  type: book
+  title: <yellow>Yellow, a poem
+  author: Djordj
+  signed: true
+  text:
+  - <gold>YELLOW<n><n><n><black>Is yellow a colour<n>of only one block<n>or do others follow<n>like an army of frogs?<n><n>I sit here thinking<n>of a block that is yellow<n>what is this thingy<n>could it be melon?
+  - Is yellow a colour<n>or is it a feeling<n>that's what I ponder<n>when I am peeing.<n><n><gray>by Djordj

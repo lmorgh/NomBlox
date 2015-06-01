@@ -1,0 +1,6 @@
+%no-default%
+###&7%player% &chugged a cactus.
+###&7%player% &cgot impaled.
+###&7%player% &cdidn't know flowers can have spikes.
+###&7%player% &cswung at a cactus.
+###&7%player% &ctried to climb a cactus. Bad idea.

@@ -1,0 +1,38 @@
+=======================================
+UltimateCore has run into an error 
+Please report your error on dev.bukkit.org/bukkit-plugins/ultimate_core/create-ticket
+Bukkit version: git-Spigot-c3c767f-33d5de3 (MC: 1.8)
+UltimateCore version: 2.0.9
+Plugins loaded (21): [CustomDeathMessages v2.03, WorldEdit v6.0.2-SNAPSHOT;3364-1209e484, TerrainControl v2.7.0-SNAPSHOT, FeatherEconomy v1.1.5, PermissionsEx v1.23.1, BlivTrails v1.0.4, PerWorldInventory v1.2.2, WorldBorder v1.8.2, HolographicDisplays v2.1.4, Vault v1.5.3-b37, UltimateCore v2.0.9, WorldGuard v6.0.0-beta-05.1569-, BO3Tools v1.4, CommandsForSale v1.2, Citizens v2.0.14-SNAPSHOT (build 1212), RandomCoords v5.0.0, MythicMobs v1.1.8, Quests v2.2.5, CraftBook v3.8-SNAPSHOT:3803-e037f90,master, GriefPrevention v11.0, GPRealEstate v1.5.0]
+Java version: 1.8.0_31
+OS info: amd64, Windows 7, 6.1
+Online mode: true
+Time: 2015-03-04_14-22-47-465
+Error message: null
+UltimateCore message: Failed to execute command: /world tp hub
+=======================================
+Stacktrace: 
+java.lang.NullPointerException
+	at org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer.teleport(CraftPlayer.java:464)
+	at bammerbom.ultimatecore.bukkit.resources.utils.LocationUtil.teleport(LocationUtil.java:370)
+	at bammerbom.ultimatecore.bukkit.commands.CmdWorld.tp(CmdWorld.java:317)
+	at bammerbom.ultimatecore.bukkit.commands.CmdWorld.run(CmdWorld.java:419)
+	at bammerbom.ultimatecore.bukkit.UltimateCommands.onCmd(UltimateCommands.java:193)
+	at bammerbom.ultimatecore.bukkit.UltimateCore.onCommand(UltimateCore.java:140)
+	at org.bukkit.command.PluginCommand.execute(PluginCommand.java:44)
+	at org.bukkit.command.SimpleCommandMap.dispatch(SimpleCommandMap.java:141)
+	at org.bukkit.craftbukkit.v1_8_R1.CraftServer.dispatchCommand(CraftServer.java:646)
+	at net.minecraft.server.v1_8_R1.PlayerConnection.handleCommand(PlayerConnection.java:1115)
+	at net.minecraft.server.v1_8_R1.PlayerConnection.a(PlayerConnection.java:950)
+	at net.minecraft.server.v1_8_R1.PacketPlayInChat.a(PacketPlayInChat.java:26)
+	at net.minecraft.server.v1_8_R1.PacketPlayInChat.a(PacketPlayInChat.java:53)
+	at net.minecraft.server.v1_8_R1.PacketHandleTask.run(SourceFile:13)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at net.minecraft.server.v1_8_R1.MinecraftServer.z(MinecraftServer.java:696)
+	at net.minecraft.server.v1_8_R1.DedicatedServer.z(DedicatedServer.java:316)
+	at net.minecraft.server.v1_8_R1.MinecraftServer.y(MinecraftServer.java:634)
+	at net.minecraft.server.v1_8_R1.MinecraftServer.run(MinecraftServer.java:537)
+	at java.lang.Thread.run(Unknown Source)
+
+=======================================

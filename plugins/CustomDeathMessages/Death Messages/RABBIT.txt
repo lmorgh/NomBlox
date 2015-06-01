@@ -1,0 +1,4 @@
+%no-default%
+###&7%player% &ctried to pet a killer bunny. That sure was a mistake.
+###&7%player% &ctried to feed the wrong bunny.
+###&cThere are bunnies, and there are killer bunnies. &7%player% &cjust learned that the hard way.

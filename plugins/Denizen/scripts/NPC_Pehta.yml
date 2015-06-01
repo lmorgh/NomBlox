@@ -1,0 +1,900 @@
+Pehta:
+  type: assignment
+  actions:
+    on assignment:
+    - trigger name:chat state:true radius:4
+  interact scripts:
+  - 10 Pehta_interact
+  
+Pehta_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        
+        - if !<player.has_flag[Pehta_met]>
+        {
+          - narrate "<dark_aqua>A short, middle aged woman, who is obviously busy with something, impatiently looks at you from behind the counter."
+          - wait 3
+          - narrate format:npcf "I'm kind of busy, what is it?"
+          - wait 4
+          - narrate "<dark_aqua>The sharp tone caught you off guard, and somehow you can't think of anything remotely smart to say."
+          - wait 5
+          - narrate format:youf "Uhh.. umm... hello."
+          - wait 2
+          - narrate "<dark_aqua>You are able to maintain a long moment of awkward silence, and the woman is visibly losing patience."
+          - wait 3
+          - narrate format:npcf "Well, what are you standing there for, what do you want?!"
+          - wait 3
+          - narrate "<dark_aqua>You still can't think of a good reason you came here, and you feel intimidated by the look in the woman's eyes. Your voice cracks when you speak."
+          - wait 6
+          - narrate format:youf "I.. urhh.. visit."
+          - wait 2
+          - narrate "<dark_aqua>You probably didn't impress her with your conversational skill. You decide to rectify the situation."
+          - wait 4
+          - narrate format:youf "You. I visit."
+          - wait 3
+          - narrate "<dark_aqua>That certainly didn't help. You hastily open your mouth again, since you're not making a good first impression, but all you manage is to spit on your chin before you even say anything."
+          - wait 6
+          - narrate "<&nl>"
+          - narrate "<dark_aqua>At first the woman frowns at you, but slowly her eyes widen and her tightly pursed lips gradually part, before she spoke in a much friendlier tone."
+          - wait 5
+          - narrate format:npcf "Oh, I see. I'm so sorry to have yelled at you. I didn't realise you're... special."
+          - wait 4
+          - narrate "<dark_aqua>You really didn't expect her to say that, it's so absurd it left you speechless for a moment."
+          - wait 4
+          - narrate format:youf "No, that's not.. I mean.. I'm not. Ugh..."
+          - wait 4
+          - narrate "<dark_aqua>The expression on woman's face changed completely, her crankiness was replaced by what appears to be... empathy?"
+          - wait 4
+          - narrate format:npcf "Shush now, dear. It might be true that I'm the local healer, but sadly there isn't a herb to mend your kind of illness."
+          - wait 4
+          - narrate "<dark_aqua>Even if you tried, you couldn't put together a coherent answer. At this point you're not sure if you even want to try. You decide it's best if you go with the flow and just remain silent for now."
+          - wait 5
+          - narrate format:npcf "You must be really confused right now. My name is <npc.name> and I'm the closest thing to a doctor around here. I also specialise in elixirs, brews, and potions."
+          - wait 5
+          - narrate format:npcf "Well, at least that's how it would be, if I weren't all out of ingredients. The problem is, I can't leave the shop unattended to go out looking for more. If only I had someone to..."
+          - wait 6
+          - narrate "<dark_aqua><npc.name> pauses mid-sentence and sets her eyes on you for a long moment."
+          - wait 4
+          - flag player Pehta_met
+        }
+        
+        - narrate format:npcf "Maybe... maybe you could help me out. Say, do you like picking flowers?"
+        - wait 3
+        - narrate "<dark_aqua>It's obvious she wants you to find fresh ingredients for her (I mean come on, you've played enough games to see where this is going), but you decide to play along. You nod."
+        - wait 6
+        - narrate format:npcf "You do? That's perfect! What do you say, will you go pick me some dandel... yellow ones? 10 would do."
+        - wait 1
+        - narrate "<gray>(yes/no)"
+        - flag player npc_engaged:!
+        
+      chat trigger:
+        1:
+          trigger: <yellow>/regex:(?i)Yes|Yeah|ja/.
+          script:
+          - wait 1
+          - narrate "<dark_aqua><npc.name> seems very pleased that you are willing to help."
+          - wait 1
+          - narrate format:npcf "You're such a darling. Please bring me <red>10 yellow flowers<green>, I need them for my potions."
+          - wait 1
+          - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+          - ^narrate "<gold>Quest added: <yellow>Special delivery from a special someone"
+          - ^narrate "<&nl>"
+          - ^narrate " - Bring <npc.name> 10 dandelions"
+          - ^narrate "|----------------------------------------------------|"
+          - wait 1
+          - title "title:Quest Added" "subtitle:<yellow><&dq>Special delivery from a special someone<&dq>" 1 5 1 <player>
+          
+          - flag player pehta_accepted
+          - zap step:3
+          - flag player npc_engaged:!
+        2:
+          trigger: <yellow>/regex:(?i)No|Nope|Nah/.
+          script:
+          - wait 1
+          - narrate "<dark_aqua><npc.name> looks a bit disappointed."
+          - wait 1
+          - narrate format:npcf "That's alright, dear. I'll still need the flowers later if you change your mind."
+          - zap step:2
+          - flag player npc_engaged:!
+        unknown: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate format:npcf "What was that, dear?"
+            - narrate format:npcf "Sorry dear, I don't understand."
+            - narrate format:npcf "I don't understand what you mean."       
+            - narrate format:npcf "I don't know what you're saying, dear. Probably you neither." 
+          }
+          
+        
+    2:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        
+        - narrate "<dark_aqua><npc.name> is apparently still waiting for someone to fetch her flowers."
+        - wait 1
+        - narrate format:npcf "Did you change your mind, dear? I hope so, I can't heal people without my potions. Will you bring me 10 yellow flowers?"
+        - wait 1
+        - narrate "<gray>(yes/no)"
+      chat trigger:
+        1:
+          trigger: <yellow>/regex:(?i)Yes|Yeah|ja/.
+          script:
+          - wait 1
+          - narrate "<dark_aqua><npc.name> seems very pleased that you are willing to help."
+          - wait 1
+          - narrate format:npcf "You're such a darling. Please bring me <red>10 yellow flowers<green>, I need them for my potions."
+          - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+          - ^narrate "<gold>Quest added: <yellow>Special delivery from a special someone"
+          - ^narrate "<&nl>"
+          - ^narrate " - Bring <npc.name> 10 dandelions"
+          - ^narrate "|----------------------------------------------------|"
+          - wait 1
+          - title "title:Quest Added" "subtitle:<yellow><&dq>Special delivery from a special someone<&dq>" 1 5 1 <player>
+          
+          - flag player pehta_accepted
+          - zap step:3
+          - flag player npc_engaged:!
+        2:
+          trigger: <yellow>/regex:(?i)No|Nope|Nah/.
+          script:
+          - wait 1
+          - narrate "<dark_aqua><npc.name> looks a bit disappointed."
+          - wait 1
+          - narrate format:npcf "That's alright, dear. I'll still need the flowers later if you change your mind."
+          - flag player npc_engaged:!
+        unknown: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate format:npcf "What was that, dear?"
+            - narrate format:npcf "Sorry dear, I don't understand."
+            - narrate format:npcf "I don't understand what you mean."       
+            - narrate format:npcf "I don't know what you're saying, dear. Probably you neither." 
+          }
+    3:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - flag player Pehta_met:!
+        
+        - if <player.has_flag[Pehta_accepted]> && <player.inventory.contains.material[yellow_flower].qty[10]>
+        {
+          - take item i@YELLOW_FLOWER qty:10
+          - flag player pehta_accepted:!
+          - flag player pehta_allowshrooms
+          
+          - narrate "<dark_aqua>As you wave the flowers in front of <npc.name>'s face, she looks more than a little surprised."
+          - wait 3
+          - narrate format:npcf "Oh my, you actually managed to bring me the dandelions! You're a peach. Let me take care of these."
+          - wait 5
+          - narrate "<dark_aqua><npc.name> takes the flowers and puts them away."
+          - wait 4
+          - narrate format:npcf "You know, I feel terrible for being mean to you earlier, and you helped me with my ingredients nevertheless. You might be simple, but you're a good person."
+          - wait 6
+          - narrate format:npcf "I usually charge my patients for treating their wounds, but I'll treat you free of charge whenever you're hurt."
+          - wait 5
+          - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+          - ^narrate "<gold>Quest completed: <yellow>Special delivery from a special someone"
+          - ^narrate "<&nl>"
+          - ^narrate "<gold>Reward:"
+          - ^narrate " - <npc.name> now offers you free healing"
+          - ^narrate " - <npc.name> will now discuss other topics with you"
+          - narrate "|----------------------------------------------------|"
+          - wait 1
+          - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>Special delivery from a special someone<&dq>" 1 5 1 <player>
+          - zap step:MAINMENU
+          - flag player npc_engaged:!
+        } 
+        else 
+        {
+          - random
+          {
+            - narrate format:npcf "The small yellow ones, dear. They grow everywhere. 10 of them. That's one for each finger."
+            - narrate format:npcf "Just bring me 10 yellow flowers, dear. Yellow like the sun. And pee."
+            - narrate format:npcf "10 yellow flowers. TEN. That many!"
+            - narrate format:npcf "I know it's hard, but you should focus on picking the yellow flowers. Ten of those should suffice."
+          }
+        }
+          
+        - flag player npc_engaged:!
+#################################################################################################
+#                                                                                               #
+#                                       MAIN MENU                                               #
+#                                                                                               #
+#################################################################################################
+    MAINMENU:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        
+        - narrate format:npcf "Hello, dear. What do you want to talk about?"
+        - ^narrate "|------------------- <dark_aqua>NOMBLOX <npc.name.to_uppercase><white> -------------------|"
+        - ^narrate "1 - CHAT"
+        - ^narrate "2 - HEALING"
+        - ^narrate "3 - WORK"
+        - ^narrate "4 - HERBALISM"
+        - ^narrate "<gray>tip: type the corresponding number to talk about that topic"
+        - ^narrate "|----------------------------------------------------|"
+        - narrate "<dark_aqua>You decide it's best to keep the conversation very basic. She likes you better this way."      
+        - flag player npc_engaged:!
+        
+      chat trigger:
+        CHAT:
+          trigger: /regex:(?i)1|one|juan|chat\+REPLACE:<yellow>What's up?/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+          - random
+          {
+            - narrate format:npcf "Did you know that our little settlement is built on top of some ancient ruins? Spooky."
+            - narrate format:npcf " Captain Ol' Johnson still wants to sail back home, even though his ship is a wreck. Poor soul."
+            - narrate format:npcf "Hmm... did I empty my chamber pot this morning?"
+            - narrate format:npcf "Somehow people around here tend to get hurt A LOT."
+            - narrate format:npcf "If you use bone meal on tall grass, it grows even larger."
+            - narrate format:npcf "If you try to eat something and you die, it's poisonous. If somethings tries to eat you and you die, it's venomous."
+          }
+          - flag player npc_engaged:!
+          
+        HEAL:
+          trigger: /regex:(?i)2|two|healing\+REPLACE:<yellow>I don't feel well./
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+          - narrate format:npcf "Are you hurt? A simple <gold>yes<green> or <gold>no<green> will do."
+          - flag player npc_engaged:!
+          - zap healme
+          
+        3:
+          trigger: /regex:(?i)3|three|work|job|task\+REPLACE:<yellow>Let's talk work./
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+#################################################################################################
+#                                                                                               #
+#                                       MUSHROOM QUEST                                          #
+#                                                                                               #
+#################################################################################################
+          - if <player.has_flag[pehta_mushrooms]> 
+          {
+            - if <player.inventory.contains.material[brown_mushroom].qty[10]> && <player.inventory.contains.material[red_mushroom].qty[10]>
+            {
+              - take item RED_MUSHROOM qty:10
+              - take item BROWN_MUSHROOM qty:10
+              - flag player pehta_alloweyes
+              - flag player pehta_mushrooms:!
+              - flag player pehta_allowshrooms:!
+              
+              - narrate "<dark_aqua>You decide to put on a little show in front of <npc.name>, and act as if you're trying to eat one of the mushrooms raw."
+              - wait 4
+              - narrate format:npcf "No no no! STOP!"
+              - wait 2
+              - narrate format:youf "Are they not good for me?"
+              - wait 2
+              - narrate "<dark_aqua>She gives you the most sympathetic look."
+              - wait 2
+              - narrate format:npcf "Oh, honey. They aren't exactly poisonous, but you can get very... weird from eating these."
+              - wait 5
+              - narrate "<dark_aqua>The joke's on her, you wouldn't actually eat it. You can barely stop yourself from laughing out loud. Good times."
+              - wait 5
+              - narrate format:npcf "In any case, it would be best if you just hand them over to me."
+              - wait 2
+              - narrate "<dark_aqua>You give the mushrooms to <npc.name>."
+              - wait 2
+              - narrate format:npcf "Thank you, dear. I was going to eat some cookies, but I think I'll have a few mushrooms now. You can take these."
+              - wait 4
+              - give player i@cookie qty:64
+              
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest completed: <yellow>A trip to the mushroom land"
+              - ^narrate "<&nl>"
+              - ^narrate "<gold>Reward:"
+              - ^narrate " - 64 Cookies"
+              - narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>A trip to the mushroom land<&dq>" 1 5 1 <player>
+              - flag player npc_engaged:!
+        
+            }
+            else
+            {
+              - random
+              {
+                - narrate format:npcf "Mushrooms, dear. They grow everywhere. 10 of each, red and brown."
+                - narrate format:npcf "Just bring me 10 brown and 10 red mushrooms, dear. Red like roses. And blood. Brown like cocoa beans. And poop."
+                - narrate format:npcf "10 brown and 10 red mushrooms. TEN. That many!"
+                - narrate format:npcf "I know it's hard, but you should focus on finding the mushrooms. Ten of each should suffice."
+              }
+            }
+            - flag player npc_engaged:!
+          }
+#################################################################################################
+#                                                                                               #
+#                                       SPIDER EYE QUEST                                        #
+#                                                                                               #
+#################################################################################################
+          else if <player.has_flag[pehta_spidereyes]>
+          {
+            - if <player.inventory.contains.material[spider_eye].qty[10]>
+            {
+              - take item i@SPIDER_EYE qty:10
+              - flag player pehta_allowpotatoes
+              - flag player pehta_spidereyes:!
+              - flag player pehta_alloweyes:!
+              
+              - narrate "<dark_aqua>As you walk towards <npc.name>, you hold a spider eye in each hand in front of your face."
+              - wait 3
+              - narrate format:youf "Rawr, I'm a giant spider!"
+              - wait 2
+              - narrate format:npcf "Please don't eat me, dear."
+              - wait 2
+              - narrate "<dark_aqua>You can see she has a soft spot for you as she smiles at you."
+              - wait 3
+              - narrate format:npcf "I hope you didn't have a hard time collecting the eyes. You can give them to me now."
+              - wait 4
+              - narrate "<dark_aqua>You give <npc.name> the spider eyes."
+              - wait 3
+              - narrate format:npcf "Thank you, dear. I prepared a little something for you while you were out hunting spiders."
+              - wait 4
+              - give player i@potion:8197
+              
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest completed: <yellow>I for an eye"
+              - ^narrate "<&nl>"
+              - ^narrate "<gold>Reward:"
+              - ^narrate " - Potion of Healing"
+              - narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>I for an eye<&dq>" 1 5 1 <player>
+              - flag player npc_engaged:!
+            }
+            else
+            {
+              - random
+              {
+                - narrate format:npcf "Spider eyes. From real spiders, dear. 10 of them. That's one for each finger."
+                - narrate format:npcf "Just bring me 10 spider eyes, dear. No, not spider ice. Spider EYES."
+                - narrate format:npcf "10 spider eyes. TEN. That many!"
+                - narrate format:npcf "I know it's hard, but you should focus on finding 10 spider eyes."
+              }
+            }
+            - flag player npc_engaged:!
+          }
+          
+#################################################################################################
+#                                                                                               #
+#                                       POTATO QUEST                                            #
+#                                                                                               #
+#################################################################################################          
+          else if <player.has_flag[pehta_poisonouspotatoes]>
+          {
+            - if <player.inventory.contains.material[poisonous_potato].qty[5]>
+            {
+              - take item i@POISONOUS_POTATO qty:5
+              - flag player pehta_allowherbalism_Q0
+              - flag player pehta_poisonouspotatoes:!
+              - flag player pehta_allowpotatoes:!
+
+              - narrate format:youf "I have the perderhders!"
+              - wait 3
+              - narrate "<dark_aqua><npc.name> seems very pleased with you."
+              - wait 3
+              - narrate format:npcf "That's marvelous, dear. If not much else, you have strong will to carry out such tedious tasks."
+              - wait 3
+              - narrate "<dark_aqua>That might have been uncalled for, but whatever."
+              - wait 2
+              - narrate format:npcf "I know finding these isn't very exciting, but I hope you at least farmed yourself some food in the process."
+              - wait 4
+              - narrate "<dark_aqua>You put the potatoes on the counter."
+              - wait 2
+              - narrate format:npcf "Thank you, dear. I prepared a little supper while you were out getting your hands dirty. It's extra energising!"
+              - wait 4
+              - give player i@MagicalStew qty:1
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest completed: <yellow>Fetch, potato!"
+              - ^narrate "<&nl>"
+              - ^narrate "<gold>Reward:"
+              - ^narrate " - Magical Stew"
+              - ^narrate " - <npc.name> will now discuss other topics with you"
+              - narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>Fetch, potato!<&dq>" 1 5 1 <player>
+              - flag player npc_engaged:!
+            }
+            else
+            {
+              - random
+              {
+                - narrate format:npcf "Poisonous potatoes. They can rarely be found when harvesting potatoes, dear. I need 5 of them."
+                - narrate format:npcf "Just bring me 5 poisonous potatoes, dear. They're green, like grass. And snot."
+                - narrate format:npcf "5 poisonous potatoes. FIVE. That many!"
+                - narrate format:npcf "I know it's hard, but you should focus on finding 5 poisonous potatoes."
+              }
+            }
+            - flag player npc_engaged:!
+          }   
+          else
+#################################################################################################
+#                                                                                               #
+#                                       ALLOW/START QUESTS                                      #
+#                                                                                               #
+################################################################################################# 
+          {
+            - narrate format:npcf "As a matter of fact, I could use some more supplies."
+            - wait 2
+            
+            - if <player.has_flag[pehta_allowpotatoes]>
+            {
+              - narrate format:npcf "I'm really happy with the spider eyes you brought me. So big and juicy! But while you were out, I ran out of poisonous potatoes."
+              - wait 4
+              - narrate format:npcf "Don't be surprised, dear. Just because they're not safe to eat, it doesn't mean they have no other use. A lot of my tinctures are based on poisonous potato extract."
+              - wait 5
+              - narrate format:npcf "In any case, I need <red>5 poisonous potatoes<green>."
+              - wait 1
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest added: <yellow>Fetch, potato!"
+              - ^narrate "<&nl>"
+              - ^narrate " - Bring <npc.name> 5 poisonous potatoes"
+              - ^narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:Quest Added" "subtitle:<yellow><&dq>Fetch, potato!<&dq>" 1 5 1 <player>
+              - flag player pehta_poisonouspotatoes
+              - zap MAINMENU
+
+            } 
+            else if <player.has_flag[pehta_alloweyes]>
+            {
+              - narrate format:npcf "Those were some quality mushrooms you brought me, but now I just realised I'm all out of spider eyes!"
+              - wait 2
+              - narrate format:npcf "They are very useful for all kinds of antidotes, and they're a delicious as seasoning when properly pulverized!"
+              - wait 4
+              - narrate format:npcf "I need <red>10 spider eyes<green>."
+              - wait 1
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest added: <yellow>I for an eye"
+              - ^narrate "<&nl>"
+              - ^narrate " - Bring <npc.name> 10 spider eyes"
+              - ^narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:Quest Added" "subtitle:<yellow><&dq>I for an eye<&dq>" 1 5 1 <player>
+              - flag player pehta_spidereyes
+              - zap MAINMENU
+            }
+            else if <player.has_flag[pehta_allowshrooms]>
+            {
+              - narrate format:npcf "However, I'm stocked with dandelions for some time. At the moment I need mushrooms."
+              - wait 3
+              - narrate format:npcf "They aren't just food, you know. When properly ingested, they're a great way for fighting stress and even depression!"
+              - wait 4
+              - narrate format:npcf "I need <red>10 brown <green>and <red>10 red mushrooms<green>."
+              - wait 1
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest added: <yellow>A trip to the mushroom land"
+              - ^narrate "<&nl>"
+              - ^narrate " - Bring <npc.name> 10 brown and 10 red mushrooms"
+              - ^narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:Quest Added" "subtitle:<yellow><&dq>A trip to the mushroom land<&dq>" 1 5 1 <player>
+              - flag player pehta_mushrooms
+              - zap MAINMENU
+            }
+            else
+            {
+              - narrate format:npcf "But only someone with at least a basic understanding of <red>herbalism <green>could help me."
+            }
+            - flag player npc_engaged:!
+          }
+        
+        HERBALISM:
+          trigger: /regex:(?i)4|four|herbalism|herb|herbs\+REPLACE:<yellow>Can you teach me?/
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          
+          - if <player.has_flag[pehta_allowherbalism_Q0]> 
+          {
+            - narrate "<dark_aqua><npc.name> is obviously surprised at the question."
+            - wait 3
+            - narrate format:npcf "Well, this isn't just something you'd learn right away, dear. It takes years to learn proper use and preparation of even the simplest of herbs."
+            - wait 5
+            - narrate "<dark_aqua>She gives you a long gaze, and you know she is thinking hard about this."
+            - wait 3
+            - narrate format:npcf "I guess you DID manage to get me the correct ingredients so far, so you have the prerequisites for a herbalist. Yes, I suppose you do."
+            - wait 6
+            - narrate "<dark_aqua>You are patiently waiting for <npc.name> to make a decision, as you see she still has her eyes firmly on you."
+            - wait 5
+            - narrate format:npcf "You do realise that it's hard work becoming an expert in collecting plants and other materials, let alone a master potion brewer or even a healer?"
+            - wait 6
+            - narrate "<dark_aqua>You don't utter a word, but your determined look must have convinced her. You could see it in her eyes even before she said it."
+            - wait 5
+            - narrate format:npcf "Alright dear, tell you what. I can teach you some basic knowledge about gathering substances from nature. But I cannot make you learn, you have to have your eyes and ears open, and your mind set. Only then you will understand nature."
+            - wait 8
+            - narrate format:youf "I will try my best."
+            - wait 3
+            - narrate format:npcf "That's good enough for me, dear. The rest is up to you."
+            - wait 3
+            - narrate format:npcf "Talk to me again when you're ready for your first lesson."
+            
+            - flag player pehta_allowherbalism_Q0:!
+            - flag player pehta_allowherbalism_Q1
+          }
+#################################################################################################
+#                                                                                               #
+#                                       HERBALISM 1 QUEST                                       #
+#                                                                                               #
+#################################################################################################          
+          else if <player.has_flag[pehta_herbalism_Q1]>
+          {
+            - if <player.flag[tallgrass_examined].as_list.size.as_int> >= 50
+            {
+              - flag pehta_herbalism_Q1:!
+              - flag tallgrass_examined:!
+              - flag player pehta_herbalism_Q1_finished
+              - flag player pehta_allowherbalism_Q2
+     
+              - narrate "<dark_aqua><npc.name> seems to be waiting to learn of your discoveries."
+              - wait 3
+              - narrate format:npcf "Have you found anything interesting, dear?"
+              - wait 3
+              - narrate "<dark_aqua>You tell her all about the bugs and other stuff, but mainly about bugs. She listens attentively, and only speaks after listening to everything you had to say."
+              - wait 6
+              - narrate format:npcf "So you see, a true herbalist always keeps their eyes - and mind - open, as it is the only way for them to truly see what nature has to offer."
+              - wait 6
+              - narrate format:youf "I see."
+              - wait 2
+              - narrate format:npcf "That's great, dear. With this, you're another step closer to mastering herbalism."
+              - wait 2
+              
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest completed: <yellow>Green as grass"
+              - ^narrate "<&nl>"
+              - ^narrate "<gold>Reward:"
+              - ^narrate " - <npc.name> will now offer a new lesson in herbalism"
+              - narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>Green as grass<&dq>" 1 5 1 <player>
+              - flag player npc_engaged:!
+            }
+            else
+            {
+              - random
+              {
+                - narrate format:npcf "You need to go out and explore. Use the Magnifying glass I gave you to look at tall grass outside."
+                - narrate format:npcf "You are supposed to be out in the nature, analysing grass with a Magnifying glass. And it rhymes, too."
+                - narrate format:npcf "If you want to examine 50 tall grass, you should be out there, not here."
+                - narrate format:npcf "You already have a task, that is to examine 50 tall grass with a Magnifying Glass."
+              }
+            }
+            - flag player npc_engaged:!
+          }
+#################################################################################################
+#                                                                                               #
+#                                       HERBALISM 2 QUEST                                       #
+#                                                                                               #
+################################################################################################# 
+          else if <player.has_flag[pehta_herbalism_Q2]>
+          {
+            - if <player.flag[HasPooped].as_list.size.as_int> >= 3
+            {
+              - flag pehta_herbalism_Q2:!
+              - flag pehta_herbalism_Q2_fertilized:!
+              - flag player pehta_allowherbalism_Q3
+              
+              - narrate "<dark_aqua>You approach <npc.name> surrounded by a strong odor of animal poop."
+              - wait 4
+              - narrate format:npcf "Oh my, I can already smell success with your task. Tell me about your discoveries."
+              - wait 5
+              - if <player.flag[HasPooped].as_list.size.as_int> >= 7
+              {
+                - narrate format:youf "I have determined in my research that at least <red><player.flag[HasPooped].as_list.size.as_int> <yellow>types of fertilizers can be used to grow different types of flowers. Mooshroom excrement even encourages mushroom growth, possibly caused by mushroom spores in their system."
+                - wait 10
+                - narrate "<dark_aqua><npc.name>'s jaw dropped as low as it possibly could. She could not imagine in her wildest dreams that you would be capable of a sentence like that. When you see she can't seem to comprehend what just happened, you slip back to the character she is used to."
+                - wait 10
+              }
+              - narrate format:youf "I know that different poop grows different plants."
+              - wait 4
+              - narrate format:npcf "Ah, I expected you'd say something like that."
+              - wait 3
+              - narrate "<dark_aqua>She lightly pats you on the head."
+              - wait 2
+              - narrate format:npcf "Animal's diet affects the substances in their excrement. Those substances differently affect each plant, so it's only natural that each type of excrement will help grow a different type of plant."
+              - wait 8
+              - narrate format:youf "I'll try to remember that."
+              - wait 2
+              - narrate "<dark_aqua><npc.name> seems pleased with your progress."
+              - wait 4
+              - narrate format:npcf "Very good. You're nearing the end of your road to becoming a herbalist."
+              - wait 4
+              
+              - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+              - ^narrate "<gold>Quest completed: <yellow>Eat, shit, rinse, repeat"
+              - ^narrate "<&nl>"
+              - ^narrate "<gold>Reward:"
+              - ^narrate " - <npc.name> will now offer a new lesson in herbalism"
+              - narrate "|----------------------------------------------------|"
+              - wait 1
+              - title "title:<gold>Quest Completed" "subtitle:<yellow><&dq>Eat, shit, rinse, repeat<&dq>" 1 5 1 <player>
+              - flag player HasPooped:!
+              - flag player npc_engaged:!
+            }
+            else
+            {
+              - random
+              {
+                - narrate format:npcf "You can craft a rotten apple from one apple and 8 rotten flesh."
+                - narrate format:npcf "Feeding rotten apples to different animals will give you different type of fertilizer."
+                - narrate format:npcf "You should be out producing poop from rotten apples, and placing poop on grass."
+                - narrate format:npcf "You need to learn about at least 3 different types of animal poop. Just fertilize grass with it and voila!"
+              }
+            }
+            - flag player npc_engaged:!
+          }
+#################################################################################################
+#                                                                                               #
+#                                       HERBALISM 3 QUEST                                       #
+#                                                                                               #
+################################################################################################# 
+          else if <player.has_flag[pehta_herbalism_Q3]>
+          {
+            - flag player npc_engaged:!
+          }
+          #KO KONČA 3rd QUEST, TI DAJE DAILY QUESTS (random fetch), REWARD JE MAGIC STEW
+          
+#################################################################################################
+#                                                                                               #
+#                                       ALLOW/START HERBALISM QUESTS                            #
+#                                                                                               #
+#################################################################################################
+          else if <player.has_flag[pehta_allowherbalism_Q2]>
+          {
+            - narrate format:npcf "You already know a thing or two about gathering ingredients from nature, but sometimes you have to take an extra step in order to obtain what you need."
+            - wait 6
+            - narrate format:youf "I don't understand."
+            - wait 2
+            - narrate format:npcf "You will in a minute. Do you still have the <red>rotten apple <green>you found in tall grass? Well, you can find more of these if you search long enough, or you could simply make regular apples rot!"
+            - wait 8
+            - narrate "<dark_aqua>You lean in, as you're pretty sure you're about to hear a valuable piece of information."
+            - wait 4
+            - narrate format:npcf "Rot tends to spread, everyone knows that. Now if you take, let's say, a bunch of <red>rotten flesh<green>, and put a regular <red>apple <green>in the middle, the rot would surely spoil the apple immediately."
+            - wait 8
+            - narrate "<gray>tip: craft an apple surrounded by rotten flesh to get a rotten apple"
+            - wait 3
+            - narrate "<dark_aqua>That's a cool concept you never thought of before, only you can't help but feel a bit confused, as you aren't sure why she's telling you all this."
+            - wait 7
+            - narrate format:npcf "I'm sure you're wondering why I'm explaining this to you."
+            - wait 3
+            - narrate "<dark_aqua><npc.name> nailed it."
+            - wait 2
+            - narrate format:npcf "For your next task you'll learn how to grow specific flowers using a quite... peculiar fertilizer."
+            - wait 5
+            - narrate "<dark_aqua>This should be interesting."
+            - wait 2
+            - narrate format:npcf "You'll have to obtain different types of animal manure. Feed the <red>rotten apples <green>to animals, until they produce the required substance. Use the substance on regular grass and report back with what you learn."
+            - wait 8
+            - narrate "<dark_aqua>This is getting more interesting by the second. Interesting and disgusting."
+            - wait 4 
+            - narrate format:npcf "When you've fertilized grass with at least <red>3 <green>different types of animal manure, return to me."
+            - wait 5
+            
+            - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+            - ^narrate "<gold>Quest added: <yellow>Eat, shit, rinse, repeat"
+            - ^narrate "<&nl>"
+            - ^narrate " - Grow at least 3 plants using different animal poop"
+            - ^narrate "|----------------------------------------------------|"
+            - wait 1
+            - title "title:Quest Added" "subtitle:<yellow><&dq>Eat, shit, rinse, repeat<&dq>" 1 5 1 <player>
+            
+            - flag player pehta_herbalism_Q2
+            - flag player pehta_allowherbalism_Q2:!
+            - flag player npc_engaged:!
+          }
+          
+          else if <player.has_flag[pehta_allowherbalism_Q1]>
+          {
+            - narrate format:npcf "You said you wanted to learn the skill of herbalism."
+            - wait 3
+            - narrate "<dark_aqua>You nod."
+            - wait 2
+            - narrate format:npcf "I do have books I could show you, but books are, well... hard."
+            - wait 3
+            - narrate "<dark_aqua>Again that sympathetic look. At least you're used to it by now."
+            - wait 3
+            - narrate format:npcf "That's why I think it would be best if you learned by doing things by yourself."
+            - wait 3
+            - narrate format:npcf "So for your first lesson, you will go out and observe nature. Find a patch of grass and look closely with this <red>Magnifying Glass<green>. And don't lose it, you'll have to go buy yourself a new one if you do." 
+            - wait 8
+            - narrate "<dark_aqua><npc.name> hands you a funny looking handle with a glass lens in the middle. You put it in front of your mouth and grin through it to <npc.name>."
+            - give player i@MAGNIFYINGGLASS
+            - wait 5
+            - narrate format:npcf "Be attentive to what life you will find under tall grass. Don't only look for what you expect to find, pay attention to everything you might see. Then come back to me and tell me about your findings."
+            - wait 8
+            - ^narrate "|------------------- <dark_aqua>NOMBLOX QUEST<white> -------------------|"
+            - ^narrate "<gold>Quest added: <yellow>Green as grass"
+            - ^narrate "<&nl>"
+            - ^narrate " - Examine 50 tall grass with a Magnifying Glass"
+            - ^narrate "|----------------------------------------------------|"
+            - wait 1
+            - title "title:Quest Added" "subtitle:<yellow><&dq>Green as grass<&dq>" 1 5 1 <player>
+            - flag player pehta_herbalism_Q1
+            - flag player tallgrass_examined:0
+            - flag player pehta_allowherbalism_Q0:!
+            - flag player pehta_allowherbalism_Q1:!
+                       
+            - flag player npc_engaged:!
+            - zap MAINMENU
+          }
+          else
+          {
+            - narrate format:npcf "Oh dear, I don't think you are prepared for a proper herbalism lesson. Maybe when you get a bit more practice."
+            - wait 2
+            - narrate "<gray>tip: Finish more quests for <npc.name>"
+          }
+          - flag player npc_engaged:!
+          
+        UNKNOWN: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate format:npcf "What was that, dear?"
+            - narrate format:npcf "Sorry dear, I don't understand."
+            - narrate format:npcf "I don't understand what you mean."       
+            - narrate format:npcf "I don't know what you're saying, dear. Probably you neither." 
+          }
+          
+    HEALME:
+      click trigger:
+        script:
+        - narrate format:npcf "Are you hurt? A simple <gold>yes<green> or <gold>no<green> will do."
+      chat trigger:
+        YES:
+          trigger: <yellow>/regex:(?i)Yes|Yeah|yah|Ja/.
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - flag player pehta_healme:!
+          
+          - wait 1
+          - narrate format:npcf "Let me take a look."
+          - wait 1
+          - narrate "<dark_aqua><npc.name> quickly examines you."
+          - wait 1
+          - if <player.health> >= 15
+          {
+            - random
+            {
+              - narrate format:npcf "Don't be silly, dear. You're a little bruised but you'll be fine."
+              - narrate format:npcf "You're fine, physically."
+              - narrate format:npcf "That's barely a scratch."
+              - narrate format:npcf "It's nothing, I've seen paper cuts more serious than this."
+            }
+            - wait 1
+            - narrate format:npcf "Come back when you really need healing."
+          }
+          else
+          {
+            - narrate format:npcf "Oh, dear. You need to be more careful when playing. let me see what I can do."
+            - wait 2
+            - random
+            {
+              - narrate "<dark_aqua><npc.name> grabs a jar of suspiciously smelling ointment from one of her shelves and starts rubbing it in your wounds."
+              - narrate "<dark_aqua><npc.name> reaches for a vial of dark, dense liquid, grabs your chin with one hand, and forces the contents of the vial down your throat with the other."
+              - narrate "<dark_aqua><npc.name> looks inside one of her cabinets, pulls out a damp cloth, and starts cleaning your wounds. Who knows, what the cloth was soaked with, but it smelled like rotting cabbage."
+            }
+            
+            - wait 1
+            - adjust <player> fake_health:15
+            - narrate "<dark_red>."
+            - wait 1
+            - adjust <player> fake_health:16
+            - narrate "<red>.."
+            - wait 1            
+            - adjust <player> fake_health:17
+            - narrate "<gold>..."
+            - wait 1
+            - adjust <player> fake_health:18
+            - narrate "<yellow>...."
+            - wait 1
+            - adjust <player> fake_health:19
+            - narrate "<green>....."
+            - wait 1
+            - heal
+            - playeffect heart <player.location> qty:10 offset:0.7
+            - narrate "<gold>You were healed!"
+            - wait 1
+            - random
+            {
+              - narrate format:npcf "That's more like it. You need to be more careful when exploring, dear."
+              - narrate format:npcf "You're perfectly healthy! On the outside at least."
+              - narrate format:npcf "Here you go, almost as good as new. Be sure to come back if you get injured!"
+              - narrate format:npcf "You're patched up. Now you could also consider taking a bath."
+            }
+          }
+          - flag player npc_engaged:!
+          - zap MAINMENU
+        NO:
+          trigger: <yellow>/regex:(?i)No|Nope|Nah/.
+          script:
+          - flag player pehta_healme:!
+          - random
+          {
+            - narrate format:npcf "I'm glad to hear that, dear."
+            - narrate format:npcf "Good to hear you're playing safe."
+            - narrate format:npcf "You don't say much, do you? I don't mind, as long as you're otherwise healthy."
+          }
+          - zap MAINMENU
+        UNKNOWN: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate format:npcf "What was that, dear?"
+            - narrate format:npcf "Sorry dear, I don't understand."
+            - narrate format:npcf "I don't understand what you mean."       
+            - narrate format:npcf "I don't know what you're saying, dear. Probably you neither." 
+          }
+          - zap MAINMENU
+              
+GrassCounter:
+  type: world
+  debug: false
+  events:
+    on player right clicks block with MAGNIFYINGGLASS:
+    - determine cancelled
+    
+    on player right clicks tall_grass with MAGNIFYINGGLASS:
+    - if <player.has_flag[pehta_herbalism_Q1_finished]> 
+    { 
+      - determine cancelled
+    }
+    else if <player.flag[tallgrass_examined].as_list.size.as_int> >= 50 
+    {
+      - narrate "<dark_aqua>You have examined enough of grass, return to Pehta!"
+      - determine cancelled
+    }   
+    else if <player.flag[tallgrass_examined].contains[<context.location.simple>]> 
+    {
+      - narrate "<dark_aqua>You already examined that patch of grass!"
+      - queue clear 
+    } 
+    else
+    {
+      - flag player tallgrass_examined:->:<context.location.simple>
+      - narrate "<dark_aqua>You have analysed <red><player.flag[tallgrass_examined].as_list.size.as_int>/50 <dark_aqua>tall grass."
+      
+      - if <player.flag[tallgrass_examined].as_list.size.as_int> = 45
+      {
+        - narrate "<dark_aqua>There's something small and shiny laying there, half covered with grass. When you pick it up you realise it's a <red>Gold tooth<dark_aqua>! You decide it's best if you hold on to it for now."
+        - wait 1t
+        - give i@GoldTooth qty:1
+        - determine cancelled
+      }
+      else if <player.flag[tallgrass_examined].as_list.size.as_int> = 25
+      {
+        - narrate "<dark_aqua>There is something hidden under tall grass. You reach for it, and... Ew. it's a <red>rotten apple<dark_aqua>. But true herbalists aren't grossed out by stuff like this, so you decide to take it with you."
+        - wait 1t
+        - give i@RottenApple qty:1
+        - determine cancelled
+      }
+      else if <player.flag[tallgrass_examined].as_list.size.as_int> = 10
+      {
+        - narrate "<dark_aqua>There are lots of bugs. You always suspected there were bugs in Minecraft."
+        - determine cancelled
+      }
+    }        
+    
+    

@@ -1,0 +1,14 @@
+%no-default%
+###&7%player% &cforgot how to swim.
+###&7%player% &cjust drowned.
+###&7%player% &cdecided they wanted to be a mermaid. It didn't work out for them.
+###&cA water filled &7%player%'s &clungs and as their whole life flashed before their eyes, they died. Horribly.
+###&7%player% &cswims like a rock.
+###&7%player% &cgasped for air, but there was only water.
+###&7%player% &cforgot to take a bottle of gills potion to the beach.
+###&7%player% &ccouldn't wait to take a breath. Literally.
+###&7%player% &cfell asleep while taking a bath.
+###&cThe water was so beautiful it took &7%player%&c's breath away.
+###&7%player% &cjust couldn't get enough of the water.
+###&7%player% &cdidn't know which way was up.
+###&cIf only &7%player% &ccould follow the bubbles.

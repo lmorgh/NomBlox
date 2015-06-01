@@ -1,0 +1,3 @@
+%no-default%
+###&7%player% &cwas nailed to the ground by a falling anvil.
+###&cNo one told &7%player% &cto watch their head for falling anvils.

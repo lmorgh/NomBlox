@@ -1,0 +1,87 @@
+{
+     "ender-chest": [],
+     "stats": {
+          "saturation": 3,
+          "potion-effects": "",
+          "can-fly": true,
+          "level": 0,
+          "flying": false,
+          "exhaustion": 1.5926004648208618,
+          "health": 20,
+          "exp": 0,
+          "gamemode": "CREATIVE",
+          "food": 20
+     },
+     "inventory": {
+          "armor": [
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 0,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 1,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 2,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 3,
+                    "id": 0
+               }
+          ],
+          "inventory": [
+               {
+                    "amount": 2,
+                    "data": 0,
+                    "index": 0,
+                    "id": 387
+               },
+               {
+                    "amount": 2,
+                    "data": 0,
+                    "index": 1,
+                    "id": 368
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 2,
+                    "id": 381
+               },
+               {
+                    "amount": 1,
+                    "data": 52,
+                    "index": 3,
+                    "id": 383
+               },
+               {
+                    "amount": 1,
+                    "data": 50,
+                    "index": 4,
+                    "id": 383
+               },
+               {
+                    "amount": 1,
+                    "data": 120,
+                    "index": 5,
+                    "id": 383
+               },
+               {
+                    "amount": 1,
+                    "data": 68,
+                    "index": 6,
+                    "id": 383
+               }
+          ]
+     }
+}

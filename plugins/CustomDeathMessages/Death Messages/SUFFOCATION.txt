@@ -1,0 +1,4 @@
+%no-default%
+###&cTurns out claustrophobia is a valid fear for &7%player%&c.
+###&7%player% &cforgot to dig themselves up.
+###&7%player%&c's shovel broke at a critical moment, so they couldn't dig themselves out.

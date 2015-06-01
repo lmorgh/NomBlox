@@ -1,0 +1,1491 @@
+#################################################################################################
+#                                                                                               # 
+#                                                                                               #
+#                                                                                               #                                                                                              
+#                                      MAGIC WANDS                                              #
+# by lmorgh                                                                                     #
+#                                                                                               #
+#                                                                                               #
+#################################################################################################  
+EmptyWand:
+  type: item
+  material: stick
+  display name: <gray>Mysterious Wand
+  no_id: true
+  lore:
+  - <White>Needs to be <yellow>identified <white>before you can use it
+  - <gray>Right click on an <yellow>Enchantment table<gray> to ID
+  
+EmptyWand_use:
+  type: world
+  events:
+    on player right clicks enchantment_table with EmptyWand:
+    - determine cancelled passively
+    - if <player.has_flag[wand_identifying]>
+    {
+      - ^run wandgiver
+      - narrate "This it bitch"
+      - flag player wand_identifying:!
+    }
+    else
+    {
+      - flag player wand_identifying duration:10s
+      - narrate "It appears you're trying to ID a wand. Right click again to confirm!"
+    }
+    
+InvTest:
+  type: inventory
+  inventory: enchanting
+
+EnchTest:
+  type: world
+  events:
+    on item enchanted:
+    - narrate "inventory: <c.inventory>"
+    - narrate "location: <context.location>"
+    - narrate "item: <context.item>"
+    - narrate "button: <context.button>"
+    - narrate "cost: <context.cost>"
+  
+#################################################################################################
+#                                                                                               #
+#                                      LORE READER                                              #
+#                                                                                               #
+#################################################################################################
+#################################################################################################
+#                                      LEFT CLICK                                               #
+#################################################################################################
+LoreReaderDurationLC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[3]> 
+  {
+    - define durationvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[durationvalue]> > 0 foreach stop
+  }
+  
+LoreReaderCooldownLC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[4]> 
+  {
+    - define cooldownvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[cooldownvalue]> > 0 foreach stop
+  }
+
+LoreReaderCostLC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[5]> 
+  {
+    - define costvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[costvalue]> > 0 foreach stop
+  }
+#################################################################################################
+#                                     RIGHT CLICK                                               #
+#################################################################################################
+LoreReaderDurationRC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[8]> 
+  {
+    - define durationvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[durationnvalue]> > 0 foreach stop
+  }
+  
+LoreReaderCooldownRC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[9]> 
+  {
+    - define cooldownvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[cooldownvalue]> > 0 foreach stop
+  }
+
+LoreReaderCostRC:
+  type: task
+  debug: false
+  script:
+  - foreach <player.item_in_hand.lore.get_args[10]> 
+  {
+    - define costvalue <def[value].strip_color.replace[regex:[^0-9]+]||0>
+    - if <def[costvalue]> > 0 foreach stop
+  }  
+
+
+SKILL_magic:
+  type: world
+  debug: false
+  events:
+
+#################################################################################################
+#                                                                                               #
+#                                      LEFT CLICK ACTIONS                                       #
+#                                                                                               #
+#################################################################################################
+    on player left clicks block with stick:
+    - determine cancelled passively
+    - if <player.item_in_hand> == i@EmptyWand { - determine cancelled }
+    - if <player.location.in_region[spawn_250]> == true
+    {
+      - narrate "<red>Your God does not allow magic so close to his temple!"
+      - determine cancelled
+    }
+    - if <player.has_flag[CooldownLC]>
+      {
+        - narrate "Your <yellow>left click skill<white> is on <red>cooldown<white>!"
+        - determine cancelled
+      }
+#################################################################################################
+#                                           Illuminate                                          #
+#################################################################################################  
+    else if <player.item_in_hand.lore.contains_text[Illuminate]>
+    {
+      - inject LoreReaderDurationLC instantly
+      - inject LoreReaderCooldownLC instantly
+      - inject LoreReaderCostLC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - light <context.location> 15 d:60
+        - flag player CooldownLC duration:%cooldownvalue%
+        - playeffect <context.location> MAGIC_CRIT qty:10 offset:1.0
+        - narrate "<yellow>Casting <gold>Illuminate<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait 1t
+        - take money qty:%costvalue%
+      }
+    }
+#################################################################################################
+#                                           Freeze water                                        #
+#################################################################################################  
+    else if <player.item_in_hand.lore.contains_text[freeze]>
+    {
+      - inject LoreReaderDurationLC instantly
+      - inject LoreReaderCooldownLC instantly
+      - inject LoreReaderCostLC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - define freezelist <player.location.cursor_on.find.blocks[stationary_water].within[3.0].filter[above.material.name.is[=].to[air]].as_list.random[12]>
+        - modifyblock %freezelist% ice
+        - flag player CooldownLC duration:%cooldownvalue%
+        - playeffect <player.location.cursor_on> MAGIC_CRIT qty:10 offset:1.0
+        - narrate "<yellow>Casting <gray>Freeze Water<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait 1t
+        - take money qty:%costvalue%
+        - wait %durationvalue%
+        - modifyblock %freezelist% stationary_water
+      }
+    }
+
+#################################################################################################
+#                                           ON PLAYER DAMAGES ENTITY                            #
+#################################################################################################      
+    on player damages entity:
+    - if <context.cause> == ENTITY_ATTACK && <player.item_in_hand.material> == m@stick
+    {
+      - determine passively cancelled
+      - if <player.location.in_region[spawn_250]> == true
+    {
+      - narrate "<red>Your God does not allow magic so close to his temple!"
+      - determine cancelled
+    }
+      - if <player.has_flag[CooldownLC]>
+      {
+        - narrate "Your <yellow>left click skill<white> is on <red>cooldown<white>!"
+        - determine cancelled
+      }
+      
+#################################################################################################
+#                                           burn                                                #
+#################################################################################################    
+      - if <player.item_in_hand.lore.contains_text[burn]>
+      {
+        - inject LoreReaderDurationLC instantly
+        - inject LoreReaderCooldownLC instantly
+        - inject LoreReaderCostLC instantly
+        - if <player.money> >= %costvalue%
+        {
+          - burn <player.target.within[6]> d:%durationvalue%
+          - flag player CooldownLC duration:%cooldownvalue%
+          - narrate "<yellow>Casting <red>Burn<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+          - wait 1t
+          - take money qty:%costvalue%
+        }
+        else
+        {
+          - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+          - determine cancelled
+        }
+      }
+#################################################################################################
+#                                           stun                                                #
+################################################################################################# 
+      else if <player.item_in_hand.lore.contains_text[Stun]>
+      {
+        - inject LoreReaderDurationLC instantly
+        - inject LoreReaderCooldownLC instantly
+        - inject LoreReaderCostLC instantly
+        - if <player.money> >= %costvalue%
+        {
+          - define originalspeed <c.entity.speed>
+          - adjust <context.entity> "speed:0.01"
+          - narrate <context.entity.name>
+          - playeffect effect:crit location:<context.entity.location> qty:12 offset:0.4
+          - flag player CooldownLC duration:%cooldownvalue%
+          - narrate "<yellow>Casting <gold>Stun<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+          - wait 1t
+          - take money qty:%costvalue%
+          - wait %durationvalue%
+          - adjust <context.entity> "speed:0.27"
+        }
+        else
+        {
+          - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+          - determine cancelled
+        }
+      }
+#################################################################################################
+#                                           poison touch                                        #
+################################################################################################# 
+      else if <player.item_in_hand.lore.contains_text[Poison]>
+      {
+        - inject LoreReaderDurationLC instantly
+        - inject LoreReaderCooldownLC instantly
+        - inject LoreReaderCostLC instantly
+        - if <player.money> >= %costvalue%
+        {
+          - cast poison d:%durationvalue% p:1 <context.entity>
+          - flag player CooldownLC duration:%cooldownvalue%
+          - playeffect <context.entity.location> MOB_SPELL_AMBIENT qty:20
+          - narrate "<yellow>Casting <light_purple>Poison Touch<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+          - wait 1t
+          - take money qty:%costvalue%
+        }
+      }
+#################################################################################################
+#                                           wither touch                                        #
+################################################################################################# 
+      else if <player.item_in_hand.lore.contains_text[Wither]>
+      {
+        - inject LoreReaderDurationLC instantly
+        - inject LoreReaderCooldownLC instantly
+        - inject LoreReaderCostLC instantly
+        - if <player.money> >= %costvalue%
+        {
+          - cast wither d:%durationvalue% p:1 <context.entity>
+          - flag player CooldownLC duration:%cooldownvalue%
+          - playeffect <context.entity.location> MOB_SPELL_AMBIENT qty:20
+          - narrate "<yellow>Casting <dark_gray>Wither Touch<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+          - wait 1t
+          - take money qty:%costvalue%
+        }
+      }
+#################################################################################################
+#                                           attract                                             #
+#################################################################################################   
+      else if <player.item_in_hand.lore.contains_text[Attract]>
+      {
+        - inject LoreReaderCooldownLC instantly
+        - inject LoreReaderCostLC instantly
+        - if <player.money> >= %costvalue%
+        {
+          - mount <context.entity> 
+          - flag player CooldownLC duration:%cooldownvalue%
+          #SHOOT dela slabše, ker jih tak neelegantno vrže..
+          # - shoot <player.target.within[10]> location:<player.target.add[0,30,0]> gravity:5.0 speed:0.1 no_damage
+          - narrate "<yellow>Casting <aqua>Attract<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+          - wait 1t
+          - take money qty:%costvalue%
+        }
+        else
+        {
+          - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+          - determine cancelled
+        }
+      }
+    }
+    
+#################################################################################################
+#                                                                                               #
+#                                      RIGHT CLICK ACTIONS                                      #
+#                                                                                               #
+#################################################################################################
+    on player right clicks with stick:
+    - if <player.item_in_hand> == i@EmptyWand { - determine cancelled }
+    - if <player.location.in_region[spawn_250]> == true
+    {
+      - narrate "<red>Your God does not allow magic so close to his temple!"
+      - determine cancelled
+    }
+    - if <player.has_flag[CooldownRC]>
+    {
+      - narrate "Your <yellow>right click skill<white> is on <red>cooldown<white>!"
+      - determine cancelled
+    }
+    - if <player.item_in_hand> == i@stick determine cancelled
+    - if <player.item_in_hand.lore.get_args[8].contains_text[none]>
+    {
+      - narrate "<yellow>This item does not have a <white>right click<yellow> spell."
+      - determine cancelled
+    }
+#################################################################################################
+#                                      fireball                                                 #
+#################################################################################################      
+    - if <player.item_in_hand.lore.contains_text[fireball]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        #SHOOT ni tak vredi, ker ne strelja naravnost pa sam sebi si napoti... pol pa ne gre ravno dol streljat itd.
+        # - shoot fireball origin:<player.location.add[0,3,0]> destination:<player.location.cursor_on.add[0,-2,0]> speed:0.7
+        - execute as_op fireball
+        - playeffect location:<player.location> effect:BLAZE_SHOOT qty:10
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <red>Fireball<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                       healing                                                 #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[healing]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - heal 2.0 <player>
+        - playeffect effect:HEART location:<player.location> qty:4 offset:0.3
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <green>Healing<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                       cure                                                    #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[cure]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - cast poison remove <player>
+        - cast wither remove <player>
+        - cast weakness remove <player>
+        - cast slow remove <player>
+        - playeffect effect:instant_Spell location:<player.location> qty:9 offset:0.3
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - narrate "<yellow>Casting <green>Cure<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait 1t
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                      lift                                                     #
+#################################################################################################      
+    else if <player.item_in_hand.lore.contains_text[lift]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue% && <player.location.distance[<player.location.cursor_on>]> <= 13
+      {
+        - shoot <player.target> height:4 spread:2
+        - playeffect effect:CLOUD location:<player.location.cursor_on> qty:30 offset:1
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <aqua>Lift <yellow>cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else if <player.location.distance[<player.location.cursor_on>]> > 13
+      {
+       - narrate "Your target is <yellow>too far away!<white>"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                           Vanish                                              #
+#################################################################################################     
+    else if <player.item_in_hand.lore.contains_text[Vanish]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - invisible <player> state:true
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <aqua>Vanish<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait 3s
+        - invisible <player> state:false
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      } 
+    }  
+     
+     
+#################################################################################################
+#                                           tangle                                              #
+#################################################################################################   
+    else if <player.item_in_hand.lore.contains_text[Tangle]>
+    {
+      - inject LoreReaderDurationRC instantly
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= <%costvalue%> && <player.location.distance[<player.location.cursor_on>]> <= 13
+      {
+        # - narrate <player.location.cursor_on.find.blocks[air].within[1.0].as_list.formatted>
+        - define weblist <player.location.cursor_on.find.blocks[air].within[2.0].as_list.random[4]>
+        - modifyblock %weblist% web
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <aqua>Tangle<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait %durationvalue%
+        - modifyblock %weblist% air
+      }
+      else if <player.location.distance[<player.location.cursor_on>]> > 13
+      {
+       - narrate "Your target is <yellow>too far away!<white>"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                     summon wolf                                               #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[wolf]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - spawn wolf[owner=<player>;custom_name=<gray>Summoned<&sp>Wolf] <player.location> save:SummonedWolf
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <dark_gray>Summon Wolf<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+        - wait %durationvalue%
+        - remove <entry[SummonedWolf].spawned_entities>
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                       Snow Machinegun                                         #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[machinegun]>
+    {
+      - inject LoreReaderDurationRC instantly
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - repeat %durationvalue%
+        {
+          - shoot snowball origin:<player> destination:<player.location.cursor_on> speed:1.6
+          - wait 1t
+        }
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <gray>Snow Gun<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+#################################################################################################
+#                                       Snow Shotgun                                            #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[shotgun]>
+    {
+      - inject LoreReaderDurationRC instantly
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue%
+      {
+        - repeat %durationvalue%
+        {
+          - shoot snowball|snowball|snowball origin:<player> destination:<player.location.cursor_on> speed:1.0 spread:6.0
+          - wait 6t
+        }
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <gray>Snow Shotgun<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+
+#################################################################################################
+#                                      lightning                                                #
+################################################################################################# 
+    else if <player.item_in_hand.lore.contains_text[lightning]>
+    {
+      - inject LoreReaderCooldownRC instantly
+      - inject LoreReaderCostRC instantly
+      - if <player.money> >= %costvalue% && <player.location.distance[<player.location.cursor_on>]> <= 13
+      {
+        - strike <player.location.cursor_on>
+        - flag player CooldownRC duration:%cooldownvalue%
+        - take money qty:%costvalue%
+        - wait 1t
+        - narrate "<yellow>Casting <gold>Lightning<yellow> cost you <blue>%costvalue% Mana <yellow>(Balance: <blue><player.money.as_int> Mana<yellow>)"
+      }
+      else if <player.location.distance[<player.location.cursor_on>]> > 13
+      {
+       - narrate "Your target is <yellow>too far away!<white>"
+      }
+      else
+      {
+        - narrate "<yellow>You do not have enough <blue>Mana<yellow> to perform this action"
+        - determine cancelled
+      }
+    }
+  
+    
+#################################################################################################
+#                                                                                               #
+#                                      GIVE ITEM                                                #
+#                                                                                               #
+################################################################################################# 
+
+WandGiver:
+  type: task
+  debug: true
+  script:
+  
+  - inject WandLore instantly
+  - inject WandNameName instantly
+#################################################################################################
+#                                      prefix                                                   #
+################################################################################################# 
+  - if <def[loreLC].contains_any_text[burn|fire]> 
+  {
+    - random
+    {
+      - inject WandNameFirePFX instantly
+      - inject WandNamePFX instantly
+    }
+  }
+  else if <def[loreLC].contains_any_text[air|attract]>
+  {
+    - random
+    {
+      - inject WandNameAirPFX instantly
+      - inject WandNamePFX instantly
+    }
+  }
+  else if <def[loreLC].contains_any_text[poison|wither]>
+  {
+    - random
+    {
+      - inject WandNamePoisonPFX instantly
+      - inject WandNamePFX instantly
+    }
+  }
+  else if <def[loreLC].contains_any_text[stun|electric]>
+  {
+    - random
+    {
+      - inject WandNameLightningPFX instantly
+      - inject WandNamePFX instantly
+    }
+  }
+  else 
+  {
+    - inject WandNamePFX instantly
+  }
+#################################################################################################
+#                                      suffix                                                   #
+#################################################################################################   
+  - if <def[loreRC].contains_any_text[burn|fire|fireball]> 
+  {
+    - random
+    {
+      - inject WandNameFireSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else if <def[loreRC].contains_any_text[air|attract|lift|push|tangle|vanish]>
+  {
+    - random
+    {
+      - inject WandNameAirSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else if <def[loreRC].contains_any_text[poison|wither]>
+  {
+    - random
+    {
+      - inject WandNamePoisonSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else if <def[loreRC].contains_any_text[stun|electric|lightning|Illuminate]>
+  {
+    - random
+    {
+      - inject WandNameLightningSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else if <def[loreRC].contains_any_text[healing|cure]>
+  {
+    - random
+    {
+      - inject WandNameHealingSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else if <def[loreRC].contains_any_text[light|illumination]>
+  {
+    - random
+    {
+      - inject WandNameLightSFX instantly
+      - inject WandNameSFX instantly
+    }
+  }
+  else 
+  {
+    - inject WandNameSFX instantly
+  }
+
+
+  - adjust <player.item_in_hand> "display_name:%colour%%prefix%<&sp>%name%<&sp>%suffix%" save:myitem
+  - adjust <entry[myitem].result.full> "lore:%loreLC%|<&sp>|%loreRC%" save:myitem2
+  - take <player.item_in_hand> qty:1
+  - give <entry[myitem2].result> qty:1
+
+WandStatRandomizerLC:
+  type: task
+  debug: false
+  script:
+  - define durationLC <util.random.int[4].to[<util.random.int[4].to[12]>]>
+  - define cooldownLC <util.random.int[4].to[10]>
+  - define cost1LC <math.as_int:<(%durationLC%-1)/2-%cooldownLC%+10>>
+  - define cost2LC <math.as_int:<((%durationLC%)/2-%cooldownLC%+10)/2>>
+  - define costLC <util.random.int[%cost1LC%].to[<util.random.int[%cost1LC%].to[%cost2LC%]>]>
+  # - narrate "duration: %durationLC%"
+  # - narrate "cooldown: %cooldownLC%"
+  # - narrate "cost: %costLC%"
+  
+WandStatRandomizerRC:
+  type: task
+  debug: false
+  script:
+  - define durationRC <util.random.int[4].to[<util.random.int[4].to[12]>]>  
+  - define cooldownRC <util.random.int[<util.random.int[4].to[10]>].to[10]>
+  - define cost1RC <util.random.int[18].to[26]>
+  - define costRC <math.as_int:<%cost1RC%-%cooldownRC%>>
+  # - narrate "%cost1RC% - %cooldownRC% = %costRC%"
+  
+  
+  
+WandLore:
+  type: task
+  debug: false
+  script:
+  - define chance <util.random.int[1].to[10]>
+#################################################################################################
+#                                      LC SPELLS                                                #
+#################################################################################################
+  - if %chance% <= 10
+  {
+    - inject WandStatRandomizerLC instantly
+    - random
+    {
+      - define loreLC "<&sp>|<white>Left click<&co> <yellow>Stun|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana" 
+      - define loreLC "<&sp>|<white>Left click<&co> <aqua>Attract|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+      - define loreLC "<&sp>|<white>Left click<&co> <red>Burn|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+      - define loreLC "<&sp>|<white>Left click<&co> <light_purple>Poison touch|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+      - define loreLC "<&sp>|<white>Left click<&co> <dark_gray>Wither touch|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+      - define loreLC "<&sp>|<white>Left click<&co> <yellow>Illuminate|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>One minute|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+      - define loreLC "<&sp>|<white>Left click<&co> <gray>Freeze Water|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownLC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costLC% mana"
+    }
+  }
+  else 
+  {
+    - define loreLC "<&sp>|<white>Left click<&co> <gray>None"
+  }
+#################################################################################################
+#                                      RC SPELLS                                                #
+#################################################################################################
+  - if %chance% >= 8
+  {
+    - inject WandStatRandomizerRC instantly
+    - random
+    {
+      - define loreRC "<white>Right click<&co> <yellow>Lightning|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana" 
+      - define loreRC "<white>Right click<&co> <aqua>Lift|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <red>Fireball|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <green>Healing|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <green>Cure Disease|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>instant|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <aqua>Tangle|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <aqua>Vanish|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>3 second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <dark_gray>Summon Wolf|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>3 second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <gray>Snow Machinegun|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+      - define loreRC "<white>Right click<&co> <gray>Snow Shotgun|<white><&sp><&sp><&sp><&sp><&sp>Duration<&co> <gray>%durationRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cooldown<&co> <gray>%cooldownRC% second(s)|<white><&sp><&sp><&sp><&sp><&sp>Cost<&co> <blue>%costRC% mana"
+    }
+  }
+  else 
+  {
+    - define loreRC "<&sp>|<white>Right click<&co> <gray>None"
+  }
+  
+#### COLOUR PICKER
+  - if <def[loreRC].contains_text[none]> 
+  {
+    - define colour "<blue>"
+  }
+  else if <def[loreLC].contains_text[none]>
+  {
+    - define colour "<dark_purple>"
+  }
+  else if <def[loreRC].contains_any_text[fireball|fire]> 
+  {
+    - define colour "<red>"
+  }
+  else if <def[loreRC].contains_any_text[lightning|thunder]>
+  {
+    - define colour "<yellow>"
+  }
+  else if <def[loreRC].contains_any_text[lift|air|tangle|vanish]>
+  {
+    - define colour "<aqua>"
+  }
+  else if <def[loreRC].contains_any_text[healing|cure]>
+  {
+    - define colour "<green>"
+  }
+  else if <def[loreRC].contains_any_text[Illumination]>
+  {
+    - define colour "<yellow>"
+  }
+  else if <def[loreRC].contains_any_text[Wolf]>
+  {
+    - define colour "<dark_gray>"
+  }
+  else if <def[loreRC].contains_any_text[Snow|Freeze]>
+  {
+    - define colour "<gray>"
+  }
+  else
+  {
+    - define colour "<gold>"
+  }
+  
+  
+#################################################################################################
+#                                       NAME GIVER                                              #
+#################################################################################################
+WandNameName:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    ####
+    - define name Stick
+    #####
+    - define name Orb
+    - define name Twig
+    - define name Cane
+    - define name Rod
+    - define name Wand
+    - define name Staff
+    - define name Scepter
+    - define name Pole
+    - define name Weapon
+    - define name Fist
+    - define name Club
+    - define name Cudgel
+    - define name Torch
+    - define name Quarterstaff
+    - define name Blister
+    - define name Rock
+    - define name Wing
+    - define name Mouth
+    - define name Fog
+    - define name Nunchuck
+    - define name Chainstick
+    - define name Knuckle
+    - define name Hiccup
+    - define name Ketchup
+    - define name Beacon
+    - define name Ray
+    - define name Spatula
+    - define name Kebab
+    - define name Cyst
+    - define name Spoon
+    - define name Fork
+    - define name Cloud
+    - define name Acorn
+    - define name Branch
+    - define name Coin
+    - define name Tooth
+    - define name Eye
+    - define name Ear
+    - define name Hair
+    - define name Mitt
+    - define name Tsunami
+    - define name Leaf
+    - define name Tree
+    - define name Bush
+    - define name Item
+    - define name Battery
+    - define name Gadget
+    - define name Contraption
+    - define name Thing
+    - define name Beast
+    - define name Fang
+    - define name Needle
+    - define name Pike
+    - define name Song
+    - define name Poem
+    - define name Pony
+    - define name Snot
+    - define name Toaster
+    - define name Leg
+    - define name Arm
+    - define name Hand
+    - define name Handle
+    - define name Nail
+    - define name Board
+    - define name Hammer
+    - define name Pin
+    - define name Whistle
+    - define name Key
+    - define name Flute
+    - define name Flip-Flop
+    - define name Calorie
+    - define name Folderol
+    - define name Avocado
+    - define name "Coffee stain"
+    - define name Tail
+    - define name Wasp
+    - define name Flea
+    - define name Sunshine
+    - define name Pancake
+    - define name Figure
+    - define name Figurine
+    - define name Totem
+    - define name Talisman
+    - define name Shell
+    - define name Pebble
+    - define name Whip
+    - define name Shinbone
+    - define name Hoof
+    - define name Horn
+  }
+# WandNamePoisonSFX:
+  # type: task
+  # script:  
+  
+
+#################################################################################################
+#                                      SUFFIX GIVER                                             #
+################################################################################################# 
+WandNameLightningSFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define suffix "of Electricity"
+    - define suffix "of Lightning"
+    - define suffix "of Thunderbolt"
+    - define suffix "of Shock"
+    - define suffix "of Electrocution"
+    - define suffix "of Thunderstorm"
+    - define suffix "of Hurt"
+    - define suffix "of Cold-blodded Fire"
+    - define suffix "of Energy"
+    - define suffix "of High Voltage"
+    - define suffix "of Power Transmission"
+    - define suffix "of 12V Battery"
+    - define suffix "of Pikachu"
+    - define suffix "of Magnetism"
+    - define suffix "of Fridge Magnets"
+    - define suffix "of Technology"
+  }
+WandNameAirSFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define suffix "Of Wind"
+    - define suffix "of Blast"
+    - define suffix "of Air"
+    - define suffix "of the Eagle"
+    - define suffix "of Flying"
+    - define suffix "of Twinkle Toes"
+    - define suffix "of the Sky"
+    - define suffix "of Clouds"
+    - define suffix "of Farts"
+    - define suffix "of Swiftness"
+    - define suffix "of the Flying Bison"
+    - define suffix "of the Avatar"
+    - define suffix "of the Airbender"
+    - define suffix "of the Air Temple"
+  }
+  
+WandNameFireSFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define suffix "of Fire"
+    - define suffix "of Flames"
+    - define suffix "of Burning"
+    - define suffix "of Blaze"
+    - define suffix "of the Dragon"
+    - define suffix "of Inferno"
+    - define suffix "of Smoke"
+    - define suffix "of the Ashes"
+    - define suffix "of the Comet"
+    - define suffix "of the Furnace"
+    - define suffix "of Coal"
+    - define suffix "of Charcoal"
+    - define suffix "of Hell"
+    - define suffix "of Lava"
+    - define suffix "of Melting"
+    - define suffix "Of Fever"
+    - define suffix "Of Temperature"
+    - define suffix "of the Sun"
+    - define suffix "of the Firelord"
+    - define suffix "of Pyre"
+    - define suffix "of Bonfire"
+    - define suffix "of Embers"
+    - define suffix "of Team Red"
+    - define suffix "of Dr.Fetus"
+  }
+WandNameHealingSFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define suffix "of Healing"
+    - define suffix "of Woundclosing"
+    - define suffix "of Medicine"
+    - define suffix "of the Doctor"
+    - define suffix "of the Surgeon"
+    - define suffix "of the Nurse"
+    - define suffix "of First Aid"
+    - define suffix "of Well-being"
+    - define suffix "of Good Health"
+    - define suffix "of Getting Better"
+    - define suffix "of Regeneration"
+    - define suffix "of Physical Therapy"
+    - define suffix "the Bandage"
+    - define suffix "the Plaster"
+    - define suffix "of Hearts"
+    - define suffix "the Healer"
+    - define suffix "the Herbalist"
+    - define suffix "of Life"
+    - define suffix "of Cough Syrup"
+    - define suffix "of <3"
+    - define suffix "of 1UP"
+  }
+WandNameSFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define suffix "of Tears"
+    - define suffix "of the Woodcutter"
+    - define suffix "of the Wolf"
+    - define suffix "of the Witch"
+    - define suffix "of Souls"
+    - define suffix "of Procrastination"
+    - define suffix "of Nom"
+    - define suffix "of Skulls"
+    - define suffix "of Farting"
+    - define suffix "of Puke"
+    - define suffix "of Nostalgia"
+    - define suffix "of the Minotaur"
+    - define suffix "of the Mage"
+    - define suffix "of the Wizard"
+    - define suffix "of Kings"
+    - define suffix "of Power"
+    - define suffix "of Knowledge"
+    - define suffix "of Games"
+    - define suffix "of Tickles"
+    - define suffix "of Pickles"
+    - define suffix "of the Yeti"
+    - define suffix "of Salami"
+    - define suffix "of the Master"
+    - define suffix "of Training"
+    - define suffix "of the Chicken"
+    - define suffix "of the Wither"
+    - define suffix "the Rich"
+    - define suffix "the Mighty"
+    - define suffix "the Juggling"
+    - define suffix "the Soul Eater"
+    - define suffix "the Misshapen"
+    - define suffix "the Grand"
+    - define suffix "the Mysterious"
+    - define suffix "the Nostradamus"
+    - define suffix "the Itchy"
+    - define suffix "the Intelligent"
+    - define suffix "the Professor"
+    - define suffix "the Ugly"
+    - define suffix "of Scurvy"
+    - define suffix "of Disease"
+    - define suffix "of Disaster"
+    - define suffix "of Dread"
+    - define suffix "of Death"
+    - define suffix "of Suffering"
+    - define suffix "of the Goat"
+    - define suffix "of the Imp"
+    - define suffix "of the Gimp"
+    - define suffix "of Spellcasting"
+    - define suffix "of Blood Magic"
+    - define suffix "of Bureaucracy"
+    - define suffix "of Kamehameha"
+    - define suffix "of Burping"
+    - define suffix "of Nose Bleed"
+    - define suffix "of Heartache"
+    - define suffix "of Catastrophe"
+    - define suffix "of The Seven Seas"    
+    - define suffix "of Pussyfooting"
+    - define suffix "of Sclerosis"
+    - define suffix "of Lumps"
+    - define suffix "of Stiffness"
+    - define suffix "of Smog"    
+    - define suffix "of Noise"
+    - define suffix "of Plumpness"
+    - define suffix "of World End"
+    - define suffix "of Apocalypse"
+    - define suffix "of The Ant Christ"    
+    - define suffix "of the Antichrist"
+    - define suffix "of Deep Frying"
+    - define suffix "of Belching"
+    - define suffix "of the Barbarian"
+    - define suffix "of the Hunter"    
+    - define suffix "of Pocahontas"
+    - define suffix "of Hiawatha"
+    - define suffix "of Karl May"
+    - define suffix "of April Fools"
+    - define suffix "of Haloween"    
+    - define suffix "of Christmas Spirit"
+    - define suffix "of Kung-Fu"
+    - define suffix "of Ballet"
+    - define suffix "of Astronomy"
+    - define suffix "the Turd"     
+    - define suffix "of Cloning"
+    - define suffix "of Westeros"
+    - define suffix "of Middle Earth"
+    - define suffix "of Vault 13"
+    - define suffix "of Mercury"
+    - define suffix "of Hogwarts"
+    - define suffix "of Butter"
+    - define suffix "of Nutella"
+    - define suffix "of Antarctica"
+    - define suffix "of Serenity"
+    - define suffix "of Felicity"
+    - define suffix "of the Warlord"
+    - define suffix "of the Warlock"
+    - define suffix "of the Outcast"
+    - define suffix "of Origami"
+    - define suffix "of Shoelacing"
+    - define suffix "of the Peacock"
+    - define suffix "of the Hedgehog"
+    - define suffix "of Design"
+    - define suffix "of Sculpturing"
+    - define suffix "of Wastes"
+    - define suffix "of White Rhino"    
+    - define suffix "of the Panda"
+    - define suffix "of Kung-Fu Panda"
+    - define suffix "of Darkness"
+    - define suffix "of the Spotless Mind"
+    - define suffix "of Conquerors"    
+    - define suffix "of Wonders"
+    - define suffix "of the Brotherhood"
+    - define suffix "of the Dark Brotherhood"
+    - define suffix "of the Skeleton Dance"
+    - define suffix "of Zombie Tea Party"    
+    - define suffix "of Creeper Fart"
+    - define suffix "of Memes"
+    - define suffix "of Culture"
+    - define suffix "the Undertaker"
+    - define suffix "the Sinner"
+    - define suffix "the Carrot"
+    - define suffix "of the Carrot People"
+    - define suffix "of Sock Gnomes"
+    - define suffix "the Glitter"
+    - define suffix "of Frodo Baggins"
+    - define suffix "of Ninjas"
+    - define suffix "of the Turtle"
+    - define suffix "of Banjo"
+    - define suffix "of Circus Freaks"
+    - define suffix "of the Praying Mantis"
+    - define suffix "of the Grasshopper"
+    - define suffix "of Lollygagging"
+    - define suffix "of Shenanigans"
+    - define suffix "of Skedaddling"
+    - define suffix "the Snollygoster"
+    - define suffix "of the Martyr"
+    - define suffix "of Guppy the Cat"
+    - define suffix "of Mom's Heart"
+    - define suffix "of Monstro"
+    - define suffix "of ???"
+    - define suffix "of Dingle"
+    - define suffix "of Gurglings"
+    - define suffix "of Mega Fatty"
+    - define suffix "of Gurdy Jr."
+    - define suffix "of Mama Gurdy"
+    - define suffix "of Utero"
+    - define suffix "of The Lamb"
+    - define suffix "of Cthulhu"
+    - define suffix "of Penguin Trouble"
+    - define suffix "of Flu"
+    - define suffix "of Tough Love"
+    - define suffix "of Nincompoopery"
+  }
+#################################################################################################
+#                                      PREFIX GIVER                                             #
+#################################################################################################  
+WandNameIlluminationPFX:
+  type: task
+  debug: false
+  script:
+  - random
+  { 
+  - define prefix Bright
+  - define prefix Shiny
+  - define prefix Luminescent
+  - define prefix Glittering
+  - define prefix Polished
+  - define prefix Shining
+  - define prefix Sunlit
+  - define prefix Illuminating
+  - define prefix Glossy
+  - define prefix Glowing
+  - define prefix Fluorescent
+  - define prefix Flashing
+  - define prefix Luminous
+  - define prefix Well-lit
+  - define prefix Cloudless
+  - define prefix Undarkened
+  - define prefix Crystal
+  - define prefix "Raa's"
+  - define prefix "Helios'"
+  - define prefix "Apollo's"
+  - define prefix Radiant
+  - define prefix Blinding
+  
+
+WandNamePoisonPFX:
+  type: task
+  debug: false
+  script:  
+  - random
+  {
+    - define prefix Poisonous
+    - define prefix Venomous
+    - define prefix Deadly
+    - define prefix Toxic
+    - define prefix Viperous
+    - define prefix "Shaman's"
+    - define prefix "Spider's"
+    - define prefix "Poison Ivy's"
+    - define prefix Anemic
+  }
+  
+WandNameLightningPFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define prefix Fulgurous
+    - define prefix Electric
+    - define prefix Shocking
+    - define prefix Ouchy
+    - define prefix Flashing
+    - define prefix Sparkling
+    - define prefix Wicked
+    - define prefix Vicious
+    - define prefix Charged
+    - define prefix Storming
+    - define prefix Static
+    - define prefix Jolting
+    - define prefix Powered
+    - define prefix "Watt's"
+    - define prefix Energetic
+    - define prefix Zapping
+    - define prefix Amplifying
+    - define prefix Crackling
+    - define prefix "Jolteon's"
+    - define prefix Yellow
+    - define prefix Uninsulated
+    - define prefix Conducting
+    
+  }
+WandNameAirPFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define prefix Swift
+    - define prefix Hasty
+    - define prefix Rapid
+    - define prefix Nimble
+    - define prefix Agile
+    - define prefix Wuthering
+    - define prefix Brisk
+    - define prefix Soaring
+    - define prefix Volant
+    - define prefix Heavenly
+    - define prefix Blasting
+    - define prefix "Aang's"
+    - define prefix Birdlike
+    - define prefix "Airbender's"
+  }
+WandNameFirePFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define prefix Fiery
+    - define prefix Fierce
+    - define prefix Ferocious
+    - define prefix Blazing
+    - define prefix Flaming
+    - define prefix Burning
+    - define prefix Glowing
+    - define prefix Blistering
+    - define prefix Ardent
+    - define prefix Flaring
+    - define prefix Inflamed
+    - define prefix Devouring
+    - define prefix Glaring
+    - define prefix Devilish
+    - define prefix Glimmery
+    - define prefix "Satan's"
+    - define prefix Smoldering
+    - define prefix Smoking
+    - define prefix Hot
+    - define prefix "Zuko's"
+    - define prefix "Firelord's"
+    - define prefix "Flareon's"
+    - define prefix Red
+    - define prefix Pyromantic
+  }
+WandNamePFX:
+  type: task
+  debug: false
+  script:
+  - random
+  {
+    - define prefix Serious
+    - define prefix Bloody
+    - define prefix Magic
+    - define prefix Iron
+    - define prefix Gold
+    - define prefix Obsidian
+    - define prefix Alien
+    - define prefix Bloated
+    - define prefix Spiky
+    - define prefix Funny
+    - define prefix Mammoth
+    - define prefix Greasy
+    - define prefix Groovy
+    - define prefix Addicting
+    - define prefix Agreeable
+    - define prefix Ancient
+    - define prefix Arrogant
+    - define prefix Awful
+    - define prefix Baleful
+    - define prefix Calamitious
+    - define prefix Caustic
+    - define prefix Corpulent
+    - define prefix Obese
+    - define prefix Dowdy
+    - define prefix Insolent
+    - define prefix Jocular
+    - define prefix Playful
+    - define prefix Little 
+    - define prefix Ticklish
+    - define prefix Grand
+    - define prefix Ugly
+    - define prefix Horrible
+    - define prefix Withering
+    - define prefix Dry
+    - define prefix Dizzy
+    - define prefix Tender
+    - define prefix Boiling
+    - define prefix Whispering
+    - define prefix Purple
+    - define prefix Forbidden
+    - define prefix Spotty
+    - define prefix Young
+    - define prefix Gigantic
+    - define prefix Curly
+    - define prefix Curvy 
+    - define prefix Styrofoam
+    - define prefix Ginger
+    - define prefix Supreme
+    - define prefix Majestic
+    - define prefix Superb
+    - define prefix Unique
+    - define prefix Precious
+    - define prefix Withering
+    - define prefix Exquisite
+    - define prefix Worthy
+    - define prefix Awesome
+    - define prefix Academic
+    - define prefix Godlike
+    - define prefix Lousy
+    - define prefix Broken
+    - define prefix Abominable
+    - define prefix Awful
+    - define prefix Despicable
+    - define prefix Atrocious
+    - define prefix Hideous
+    - define prefix Rusty
+    - define prefix Damaged
+    - define prefix Sluggish
+    - define prefix Lazy
+    - define prefix Disrespectful
+    - define prefix Disobedient
+    - define prefix Arrogant
+    - define prefix Ashamed
+    - define prefix Beautiful
+    - define prefix Bitter
+    - define prefix Clumsy
+    - define prefix Cooing
+    - define prefix Cooperative
+    - define prefix Creepy
+    - define prefix Cruel
+    - define prefix Cuddly
+    - define prefix Disgusting
+    - define prefix Disturbing
+    - define prefix Dusty
+    - define prefix Embarrassing
+    - define prefix Fat
+    - define prefix Filthy
+    - define prefix Flaky
+    - define prefix Fluffy
+    - define prefix Gentle
+    - define prefix Giant
+    - define prefix Grubby
+    - define prefix Handsome
+    - define prefix Helpless
+    - define prefix Hissing
+    - define prefix Homeless
+    - define prefix Jolly
+    - define prefix Lively
+    - define prefix Loose
+    - define prefix Loud
+    - define prefix Magnificent
+    - define prefix Melodic
+    - define prefix Harmonic
+    - define prefix Nasty
+    - define prefix Nutty
+    - define prefix Obnoxious
+    - define prefix Odd
+    - define prefix Outrageous
+    - define prefix Panicky
+    - define prefix Plastic
+    - define prefix Prickly
+    - define prefix Purring
+    - define prefix Repulsive
+    - define prefix Resonant
+    - define prefix Ripe
+    - define prefix Roasted
+    - define prefix Dobust
+    - define prefix Rotten
+    - define prefix Salty
+    - define prefix Sour
+    - define prefix Scrawny
+    - define prefix Screeching
+    - define prefix Shaggy
+    - define prefix Shaky
+    - define prefix Sharp
+    - define prefix Shivering
+    - define prefix Silky
+    - define prefix Smiling
+    - define prefix Sticky
+    - define prefix Stingy
+    - define prefix Striped
+    - define prefix Tan
+    - define prefix Tasteless
+    - define prefix Thirsty
+    - define prefix Hungry
+    - define prefix Troubled
+    - define prefix Ugliest
+    - define prefix Vivacious
+    - define prefix Watery
+    - define prefix Yummy
+    - define prefix Zany
+    - define prefix "Eco-friendly"
+    - define prefix Eternal
+    - define prefix Bothered
+    - define prefix Hyped
+    - define prefix Extroverted
+    - define prefix Gaussian
+    - define prefix Filtered
+    - define prefix Penalized
+    - define prefix Perpetual
+    - define prefix Hooligan
+    - define prefix Goliath
+    - define prefix Gargantuan
+    - define prefix "Wraith's"
+    - define prefix Non-Muggle
+    - define prefix Decaying
+    - define prefix Atomic
+    - define prefix Malicious
+    
+  }

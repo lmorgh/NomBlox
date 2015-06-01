@@ -1,0 +1,283 @@
+# GuidePlayersHide:
+  # type: world
+  # events:
+    # on player breaks grass:
+    # - adjust <player> hide_entity:<player.list.online.exclude[<player>]>
+    
+    # on player changes world from Tutorial:
+    # - adjust <player> show_entity:<server.list_online_players.exclude[<player>]>
+    
+# GuideChatHide:
+  # type: world
+  # events:
+    # on player chats:
+    # - determine RECIPIENTS ""
+
+TutorialGuide:
+  type: assignment
+  actions:
+    on assignment:
+    - trigger name:chat state:true radius:5 
+  interact scripts:
+  - 10 TutorialGuide_interact
+  
+TutorialGuide_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - narrate "<dark_aqua>You wave at the simple man standing on his porch."
+        - wait 1
+        - narrate "You -> <npc.name>: <yellow><&dq>Hello there.<&dq>"
+        - wait 1
+        - narrate "<dark_aqua>The man waves back and seems super excited for some reason."
+        - wait 1
+        - narrate "<npc.name>: <green><&dq>Howdy stranger, I'm so glad you came to visit me!<&dq>"
+        - wait 1
+        - narrate "<npc.name>: <green><&dq>I bet you have a lot of questions.<&dq>"
+        - wait 1
+        - narrate "<npc.name>: <green><&dq>Will you stay a while and listen?<&dq>"
+        - ^narrate "<gray>tip: (<dark_green>yes<white>/<red>no<gray>)"
+        - flag player npc_engaged:!
+      chat trigger:
+        1:
+          trigger: <yellow>/Yes/, I would really like to learn about this place.
+          script:
+          - wait 1
+          - narrate "<dark_aqua>As you said that, <npc.name>'s eyes sparkled with joy."
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>Ain't that splendid!<&dq>"
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>Just tap me on the shoulder when you're ready to learn.<&dq>"
+          - narrate "<gray>tip: right click <npc.name> to talk"
+          - zap step:3
+        2:
+          trigger: <yellow>/No/, I just came to visit.
+          script:
+          - wait 1
+          - narrate "<dark_aqua>Even though he tried hard not to show it, <npc.name> expected another answer."
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>That's alright, maybe you can come back when you have some questions.<&dq>"
+          - zap step:2
+        unknown: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate "<npc.name>: <green><&dq>What was that?<&dq>"
+            - narrate "<npc.name>: <green><&dq>Sorry, I don't understand.<&dq>"
+            - narrate "<npc.name>: <green><&dq>I don't understand what you mean.<&dq>"       
+            - narrate "<npc.name>: <green><&dq>I don't know what you're saying.<&dq>" 
+          }
+    2:
+      click trigger:
+        script:
+        - narrate "<dark_aqua><npc.name> looks like he can't wait for you to change your mind."
+        - wait 1
+        - narrate "<npc.name>: <green><&dq>Did you come back to learn?<&dq>"
+        - narrate "<gray>tip: (<dark_green>yes<white>/<red>no<gray>)"
+      chat trigger:
+        1:
+          trigger: <yellow>/Yes/, I would really like to learn about this place.
+          script:
+          - if <player.has_flag[npc_engaged]> queue clear
+          - flag player npc_engaged
+          - wait 1
+          - narrate "<dark_aqua>As you said that, <npc.name>'s eyes sparkled with joy."
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>Ain't that splendid!<&dq>"
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>Just tap me on the shoulder when you're ready to learn.<&dq>"
+          - narrate "<gray>tip: right click <npc.name> to talk"
+          - flag player npc_engaged:!
+          - zap step:3
+        2:
+          trigger: <yellow>/No/, not just yet.
+          script:
+          - wait 1
+          - narrate "<dark_aqua>Even though he tried hard not to show it, <npc.name> expected another answer."
+          - wait 1
+          - narrate "<npc.name>: <green><&dq>That's alright, maybe you can come back when you have some questions.<&dq>"
+          - zap step:2
+        unknown: 
+          trigger: /regex:.+/ 
+          script: 
+          - random
+          {
+            - narrate "<npc.name>: <green><&dq>What was that?<&dq>"
+            - narrate "<npc.name>: <green><&dq>Sorry, I don't understand.<&dq>"
+            - narrate "<npc.name>: <green><&dq>I don't understand what you mean.<&dq>"       
+            - narrate "<npc.name>: <green><&dq>I don't know what you're saying.<&dq>" 
+          }
+    3:
+      click trigger:
+        script:
+        - if <player.has_flag[npc_engaged]> queue clear
+        - flag player npc_engaged
+        - narrate "<npc.name>: <green><&dq>What would you like to learn about?<&dq>"
+        - ^narrate "|------------------- <dark_aqua>NOMBLOX GUIDE<white> -------------------|"
+        - ^narrate "1 - SERVER BASICS"
+        - ^narrate "2 - ECONOMY"
+        - ^narrate "3 - LAND CLAIMING and PROTECTION"
+        - ^narrate "4 - EASTER EGGS"
+        - ^narrate "5 - DONATIONS"
+        - ^narrate "<gray>tip: type the corresponding number to talk about that topic"
+        - ^narrate "|----------------------------------------------------|"
+        - flag player npc_engaged:!
+      chat trigger:
+          1: 
+            trigger: /regex:(?i)1|one|server|basics\+REPLACE:<yellow><&dq>Please tell me more about <red>SERVER BASICS<yellow>.<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>Nomblox is in it's core a survival server with added RPG elements. We are online 24/7 and are trying to grow a friendly and active community.<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>This means, that you can experience a lot of added content, ranging from scripted events like quests and other NPC interactions, to custom monster drops, unique crafting recipes,...<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>On the other hand, if all this content is something that you aren't really interested in, you can safely ignore it and play as you would in your singleplayer world. It's up to you!<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>To gain access to everything the server has to offer, you must register on our website - <dark_aqua>www.nomblox.net <&nl> <green>It's quick and easy!<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>Server rules are pretty straightforward - don't be an ass and play nice. For more details you can always tpye <&nl> <red>/rules <green>and read about what you want to know.<&dq>"
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            
+            - flag player npc_engaged:!
+            
+          2:
+            trigger: /regex:(?i)2|two|economy\+REPLACE:<yellow><&dq>I would like to master server's <red>ECONOMY<yellow>.<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>Nomblox is a magical place, but all magic comes with a price. Magical energy is called MANA, and there are different ways of acquiring it.<&dq>"
+            - wait 5
+            - narrate "<npc.name>: <green><&dq>All players recieve some MANA daily, but they can additionally increase it by killing special monsters, and successfully finishing NPC quests. Typing <dark_aqua>/mana <green>will display your current balance.<&dq>"
+            - wait 5
+            - narrate "<npc.name>: <green><&dq>MANA can be used for magically claiming land, performing different magic tricks (also known as commands), and even as a currency! That's right, players can transform their MANA to other players via <red>/pay <green>command.<&dq>"
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            - flag player npc_engaged:!
+          3:
+            trigger: /regex:(?i)3|three|land|claiming|protection\+REPLACE:<yellow><&dq>Inform me how to protect myself from <red>GRIEF<yellow>.<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>We really try to make fighting grief as quick and painless as possible. However we cannot help players that won't help themselves.<&dq>"
+            - wait 5
+            - narrate "<npc.name>: <green><&dq>We use plugin <dark_aqua>GriefPrevention <green>to allow players to claim some land for building. Everything is set up so that players wouldn't have to worry about being griefed, and chat automatically displays links to instructional videos regarding GriefPrevention.<&dq>"
+            - wait 5
+            - narrate "<npc.name>: <green><&dq>The more you play, the more land will be available for you to claim (up to a certain point). You can even spend mana to expand your claims.<&dq>"
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            - flag player npc_engaged:!
+          4:
+            trigger: /regex:(?i)4|four|easter|eggs\+REPLACE:<yellow><&dq>Is there anything, that makes the server <red>SPECIAL<yellow>?<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>Oh, but there is! We are trying really hard to make exploring the server fun and rewarding. The most curious of players will be happy to know, that there are secrets to discover, and rewards upon discovering some of them!<&dq>"
+            - wait 5
+            - narrate "<npc.name>: <green><&dq>Those can be in form of <dark_aqua>mana<green>, <yellow>items<green>, or even <red>permission nodes<green>, that unlock certain abilities!<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>There are also various easter eggs to be discovered just for fun, like many references to other games, movies, or books.<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>Keep an eye out for hidden NPCs, hard-to-reach locations, special enemies, and such. You would be surprised, how many players miss the most obvious signs. You can even find a secret in our conversation, just listen to your <red>6<green>th sense. *wink wink*<&dq>"
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            - flag player npc_engaged:!
+          5:
+            trigger: /regex:(?i)5|five|donations\+REPLACE:<yellow><&dq>Tell me how <red>DONATIONS<yellow> work.<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>Nomblox is entirely run on donations. That means that without the help of our players we cannot fight server costs.<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>Helping out the server will also grant you some <dark_aqua>donor perks<green>, such as exclusive trails, unique items, chat related perks, etc.<&dq>"
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>You can easily donate (or buy perks) on our website - <light_purple>www.nomblox.net<green><&dq>"
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            - flag player npc_engaged:!
+          6:
+            trigger: /regex:(?i)6|six\+REPLACE:<yellow><&dq>I was feeling adventurous and I typed <red>6<yellow>!<&dq>/
+            script:
+            - if <player.has_flag[npc_engaged]> queue clear
+            - flag player npc_engaged
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>That's the spirit! But I never thought someone would actually find this secret... I don't have anything prepared!<&dq>"
+            - wait 4
+            - narrate "<dark_aqua><npc.name> scratches his beard kind of nervously for a moment."
+            - ~animate <npc> animation:EAT_FOOD
+            - wait 4
+            - narrate "<dark_aqua><npc.name> is still scratching his beard. You suspect he might have lice."
+            - wait 4
+            - narrate "<dark_aqua>Just as you decide to leave him with his thoughts, <npc.name>'s face brightens up."
+            - wait 4
+            - narrate "<npc.name>: <green><&dq>Heureka! Why don't I tell you a joke?<&dq>"
+            - wait 2
+            - narrate "<dark_aqua>That should be good, <npc.name> telling you a joke."
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>Okay, hear this - Why did the chicken cross the road?<&dq>"
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>...<&dq>"
+            - wait 2
+            - narrate "<npc.name>: <green><&dq>To get to the OTHER SIDE! HA!<&dq>"
+            - wait 3
+            - narrate "<dark_aqua>You manage to keep a straight face, I wonder how."
+            - wait 4
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>Is there anything else you would want to know?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Any more questions?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Do you want to know anything else?<&dq>"
+              - narrate "<npc.name>: <green><&dq>If you want to know about anything else just ask.<&dq>"
+            }
+            - flag player npc_engaged:!
+          unknown: 
+            trigger: /regex:.+/ 
+            script: 
+            - random
+            {
+              - narrate "<npc.name>: <green><&dq>What was that?<&dq>"
+              - narrate "<npc.name>: <green><&dq>Sorry, I don't understand.<&dq>"
+              - narrate "<npc.name>: <green><&dq>I don't understand what you mean.<&dq>"       
+              - narrate "<npc.name>: <green><&dq>I don't know what you're saying.<&dq>" 
+            }

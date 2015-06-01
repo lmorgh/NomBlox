@@ -1,0 +1,11 @@
+Cuboids:
+  nhubtosurvival: -10,0,-1,Hub|-10,2,1,Hub
+  nhubtocreative: -1,0,-10,Hub|1,2,-10,Hub
+  nhubtoparkour: -1,0,10,Hub|1,2,10,Hub
+  nsurvivaltohub: -686,83,1352,svet|-686,85,1354,svet
+  nhubtotutorial: 10,0,-1,Hub|10,2,1,Hub
+Locations:
+  nspawntutorial: -9.5,63,78.5,0.75001276,97.650024,Tutorial
+  nspawnsurvival: -695.5,84,1353.5,-0.15000184,89.40004,svet
+  nspawnhub: 0.5,1,0.5,-0.30006826,89.55,Hub
+  nspawncreative: 0.5,5,0.5,0.0,0.0,creative

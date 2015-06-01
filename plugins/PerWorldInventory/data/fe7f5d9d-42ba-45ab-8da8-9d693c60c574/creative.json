@@ -1,0 +1,77 @@
+{
+     "ender-chest": [],
+     "stats": {
+          "saturation": 5,
+          "potion-effects": "",
+          "can-fly": true,
+          "level": 0,
+          "flying": true,
+          "exhaustion": 9.999999747378752E-5,
+          "health": 20,
+          "exp": 0,
+          "gamemode": "CREATIVE",
+          "food": 20
+     },
+     "inventory": {
+          "armor": [
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 0,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 1,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 2,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 3,
+                    "id": 0
+               }
+          ],
+          "inventory": [
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 0,
+                    "id": 116
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 1,
+                    "id": 267
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 2,
+                    "id": 267,
+                    "enchantments": "19:1;"
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 3,
+                    "id": 84
+               },
+               {
+                    "amount": 2,
+                    "data": 3,
+                    "index": 4,
+                    "id": 397,
+                    "skull-meta": {"owner": "MHF_Question"}
+               }
+          ]
+     }
+}

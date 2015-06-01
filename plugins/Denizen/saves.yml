@@ -1,0 +1,332 @@
+dScript: {}
+a_saves:
+  version: '2'
+Players:
+  FE:
+    FE7F5D9D42BA45AB8DA89D693C60C574:
+      Scripts:
+        TUTORIALGUIDE_INTERACT:
+          Current Step: '3'
+        PEHTA_INTERACT:
+          Current Step: MAINMENU
+        DJORDJ_INTERACT:
+          Current Step: '5'
+        LONGJOHNSON_INTERACT:
+          Current Step: '3'
+      Flags:
+        PEHTA_HERBALISM_Q1_FINISHED:
+        - 'true'
+        PEHTA_ALLOWHERBALISM_Q3:
+        - 'true'
+        DJORDJ_MET:
+        - 'true'
+        LONGJOHNSON_MET:
+        - 'true'
+        LONGJOHNSON_RUM_BOUGHT:
+        - 'true'
+        LONGJOHNSON_SOBER:
+        - 'true'
+        DELAY:
+        - 20h
+        MAGICCOOLDOWN:
+        - 'true'
+        MAGICCOOLDOWN-expiration: 1428236638086
+        DURATION:
+        - ''
+        COOLDOWNRC:
+        - 'true'
+        COOLDOWNRC-expiration: 1432916083234
+        DAILY_MANA_COOLDOWN:
+        - 'true'
+        DAILY_MANA_COOLDOWN-expiration: 1433062046993
+  2D:
+    2D3B2E703505436D9EE7801717796513:
+      Scripts:
+        TUTORIALGUIDE_INTERACT:
+          Current Step: '3'
+      Flags:
+        DAILY_MANA_COOLDOWN:
+        - 'true'
+        DAILY_MANA_COOLDOWN-expiration: 1428247524097
+        COOLDOWNRC:
+        - 'true'
+        COOLDOWNRC-expiration: 1428349430611
+  B5:
+    B58EC07AA77740F2965B394EFD9A0350:
+      Flags:
+        COOLDOWNRC:
+        - 'true'
+        COOLDOWNRC-expiration: 1428786791797
+        COOLDOWNLC:
+        - 'true'
+        COOLDOWNLC-expiration: 1428792003361
+  4A:
+    4A6F0C50DDA04F12AC40E9471D8DAE1F:
+      Flags:
+        COOLDOWNLC:
+        - 'true'
+        COOLDOWNLC-expiration: 1428696802478
+Listeners:
+  FE: {}
+  1B: {}
+  B5: {}
+  '35': {}
+  4A: {}
+  2D: {}
+Entities:
+  '05': {}
+  F7: {}
+  '79': {}
+  E0: {}
+  0B: {}
+  CA: {}
+  E1: {}
+  9E: {}
+  F1: {}
+  7C: {}
+  '72': {}
+  AF: {}
+  3E: {}
+  E9: {}
+  5C: {}
+  '78': {}
+  '47': {}
+  8C: {}
+  2D: {}
+  4A: {}
+  C6: {}
+  '55': {}
+  EC: {}
+  6A: {}
+  '35': {}
+  D7: {}
+  E4: {}
+  C0: {}
+  '52': {}
+  4C: {}
+  '80': {}
+  1C: {}
+  8D: {}
+  '49': {}
+  3D: {}
+  4E: {}
+  FD: {}
+  '64': {}
+  '40': {}
+  C3: {}
+  DE: {}
+  '75': {}
+  '39': {}
+  B6: {}
+  5D: {}
+  '17': {}
+  E7: {}
+  7E: {}
+  B4: {}
+  D4: {}
+  '74': {}
+  '88': {}
+  '00': {}
+  AB: {}
+  A2: {}
+  '99': {}
+  '06': {}
+  3A: {}
+  F8: {}
+  '08': {}
+  D5: {}
+  0E: {}
+  1D: {}
+  C8: {}
+  '94': {}
+  E2: {}
+  '12': {}
+  1E: {}
+  '68': {}
+  '24': {}
+  DD: {}
+  E3: {}
+  '77': {}
+  9D: {}
+  '27': {}
+  8E: {}
+  '16': {}
+  AC: {}
+  E6: {}
+  E8: {}
+  BD: {}
+  '41': {}
+  BC: {}
+  '95': {}
+  '07': {}
+  FC: {}
+  D9: {}
+  6B: {}
+  '15': {}
+  5E: {}
+  F4: {}
+  '90': {}
+  '37': {}
+  '28': {}
+  BA: {}
+  1F: {}
+  '97': {}
+  A0: {}
+  '53': {}
+  8B: {}
+  3C: {}
+  '01': {}
+  EA: {}
+  '81': {}
+  '25': {}
+  '76': {}
+  '50': {}
+  '60': {}
+  '33': {}
+  '69': {}
+  4F: {}
+  '45': {}
+  6D: {}
+  A5: {}
+  C7: {}
+  FE: {}
+  C1: {}
+  D2: {}
+  CB: {}
+  '10': {}
+  0C: {}
+  B9: {}
+  '91': {}
+  '96': {}
+  DB: {}
+  7B: {}
+  2C: {}
+  BF: {}
+  B3: {}
+  6E: {}
+  '26': {}
+  '93': {}
+  '19': {}
+  ED: {}
+  B7: {}
+  D3: {}
+  4D: {}
+  '58': {}
+  7F: {}
+  '59': {}
+  '85': {}
+  '44': {}
+  '22': {}
+  F0: {}
+  '82': {}
+  CD: {}
+  '36': {}
+  '13': {}
+  D6: {}
+  5F: {}
+  C5: {}
+  '42': {}
+  BB: {}
+  5A: {}
+  '67': {}
+  FA: {}
+  '31': {}
+  '61': {}
+  AD: {}
+  1A: {}
+  DC: {}
+  B0: {}
+  A4: {}
+  '14': {}
+  '34': {}
+  EE: {}
+  '65': {}
+  0D: {}
+  F2: {}
+  '32': {}
+  F6: {}
+  '38': {}
+  E5: {}
+  '89': {}
+  DA: {}
+  3B: {}
+  6C: {}
+  '04': {}
+  '84': {}
+  6F: {}
+  DF: {}
+  4B: {}
+  7A: {}
+  '63': {}
+  '86': {}
+  '18': {}
+  9B: {}
+  '87': {}
+  CC: {}
+  7D: {}
+  B1: {}
+  0A: {}
+  F5: {}
+  9F: {}
+  A9: {}
+  B2: {}
+  '73': {}
+  '56': {}
+  C9: {}
+  EB: {}
+  '21': {}
+  '98': {}
+  A6: {}
+  1B: {}
+  '54': {}
+  EF: {}
+  '46': {}
+  AE: {}
+  '03': {}
+  F9: {}
+  '09': {}
+  '02': {}
+  3F: {}
+  B5: {}
+  '70': {}
+  2F: {}
+  0F: {}
+  FF: {}
+  '11': {}
+  B8: {}
+  '62': {}
+  A7: {}
+  2E: {}
+  '20': {}
+  '43': {}
+  9A: {}
+  8F: {}
+  D1: {}
+  AA: {}
+  '66': {}
+  '23': {}
+  2A: {}
+  '48': {}
+  FB: {}
+  D8: {}
+  A1: {}
+  '92': {}
+  D0: {}
+  A3: {}
+  '29': {}
+  '30': {}
+  '71': {}
+  BE: {}
+  '51': {}
+  9C: {}
+  F3: {}
+  A8: {}
+  2B: {}
+  C4: {}
+  '57': {}
+  5B: {}
+  CF: {}
+  '83': {}
+  8A: {}
+  CE: {}
+  C2: {}

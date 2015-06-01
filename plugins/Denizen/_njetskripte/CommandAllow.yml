@@ -1,0 +1,26 @@
+# CMD_me:
+  # type: world
+  # events:
+    # on me command:
+    # - if <player.has_flag[TEST1]>
+    # {
+      # - narrate "twas fulfilled"
+    # }
+    # else 
+    # {
+      # - determine fulfilled      
+    # }
+    
+# CMD_tpa:
+  # type: world
+  # events:
+    # on teleportask command:
+    # - if <player.money> >= 5
+    # {
+      # - narrate "You have been charged <blue>5 Mana <dark_aqua>for this command!"
+    # }
+    # else
+    # {
+      # - narrate "<dark_aqua>You do not have <red>5 Mana <dark_aqua>needed for this command!"
+      # - determine cancelled
+    # }

@@ -1,0 +1,208 @@
+{
+     "ender-chest": [],
+     "stats": {
+          "saturation": 0,
+          "potion-effects": "",
+          "can-fly": true,
+          "level": 31,
+          "flying": false,
+          "exhaustion": 2.9136414527893066,
+          "health": 20,
+          "exp": 0.5619836449623108,
+          "gamemode": "CREATIVE",
+          "food": 20
+     },
+     "inventory": {
+          "armor": [
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 0,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 1,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 2,
+                    "id": 0
+               },
+               {
+                    "amount": 0,
+                    "data": -1,
+                    "index": 3,
+                    "id": 0
+               }
+          ],
+          "inventory": [
+               {
+                    "amount": 57,
+                    "data": 0,
+                    "lore": [
+                         "§c§9§0§4§5§3§9§3§6§c§a§7§c§1§0§2§2§c§1",
+                         "§fUseless until it is §eidentified",
+                         "§fRight click on an §eEnchantment table§f to ID"
+                    ],
+                    "name": "§7Unidentified Wand",
+                    "index": 0,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "index": 1,
+                    "id": 116
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "name": "§a§oBow",
+                    "index": 2,
+                    "id": 261,
+                    "enchantments": "48:2;51:1;"
+               },
+               {
+                    "amount": 15,
+                    "data": 0,
+                    "index": 3,
+                    "id": 323
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §dPoison touch",
+                         "§f     Duration: §75 second(s)",
+                         "§f     Cooldown: §76 second(s)",
+                         "§f     Cost: §96 mana",
+                         " ",
+                         "§fRight click: §8Summon Wolf",
+                         "§f     Duration: §73 second(s)",
+                         "§f     Cooldown: §710 second(s)",
+                         "§f     Cost: §912 mana"
+                    ],
+                    "name": "§8Venomous Pebble of Power",
+                    "index": 4,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §dPoison touch",
+                         "§f     Duration: §75 second(s)",
+                         "§f     Cooldown: §77 second(s)",
+                         "§f     Cost: §95 mana",
+                         " ",
+                         "§fRight click: §8Summon Wolf",
+                         "§f     Duration: §73 second(s)",
+                         "§f     Cooldown: §79 second(s)",
+                         "§f     Cost: §911 mana"
+                    ],
+                    "name": "§8Cooing Club of the Warlord",
+                    "index": 5,
+                    "id": 280
+               },
+               {
+                    "amount": 64,
+                    "data": 0,
+                    "index": 6,
+                    "id": 85
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §dPoison touch",
+                         "§f     Duration: §78 second(s)",
+                         "§f     Cooldown: §79 second(s)",
+                         "§f     Cost: §93 mana",
+                         " ",
+                         "",
+                         "§fRight click: §7None"
+                    ],
+                    "name": "§9Shaman's Hoof of Haloween",
+                    "index": 9,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §cBurn",
+                         "§f     Duration: §74 second(s)",
+                         "§f     Cooldown: §710 second(s)",
+                         "§f     Cost: §92 mana",
+                         " ",
+                         "",
+                         "§fRight click: §7None"
+                    ],
+                    "name": "§9Addicting Whistle of Haloween",
+                    "index": 10,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §dPoison touch",
+                         "§f     Duration: §78 second(s)",
+                         "§f     Cooldown: §74 second(s)",
+                         "§f     Cost: §95 mana",
+                         " ",
+                         "",
+                         "§fRight click: §7None"
+                    ],
+                    "name": "§9Poison Ivy's Spoon of Shoelacing",
+                    "index": 11,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §cBurn",
+                         "§f     Duration: §76 second(s)",
+                         "§f     Cooldown: §75 second(s)",
+                         "§f     Cost: §97 mana",
+                         " ",
+                         "§fRight click: §aCure Disease",
+                         "§f     Duration: §7instant",
+                         "§f     Cooldown: §710 second(s)",
+                         "§f     Cost: §98 mana"
+                    ],
+                    "name": "§aInflamed Whistle the Glitter",
+                    "index": 12,
+                    "id": 280
+               },
+               {
+                    "amount": 1,
+                    "data": 0,
+                    "lore": [
+                         "",
+                         "§fLeft click: §8Wither touch",
+                         "§f     Duration: §74 second(s)",
+                         "§f     Cooldown: §74 second(s)",
+                         "§f     Cost: §98 mana",
+                         " ",
+                         "",
+                         "§fRight click: §7None"
+                    ],
+                    "name": "§9Anemic Hair of the Wizard",
+                    "index": 13,
+                    "id": 280
+               }
+          ]
+     }
+}

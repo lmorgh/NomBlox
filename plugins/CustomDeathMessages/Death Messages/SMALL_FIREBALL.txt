@@ -1,0 +1,4 @@
+%no-default%
+###&cTo &7%player% &cit seemed like the air itself was in flames.
+###&7%player% &cgot used for flaming balls target practice.
+###&7%player% &cdied in a blaze of fireballs.

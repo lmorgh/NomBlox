@@ -1,0 +1,154 @@
+groups:
+  default:
+    options:
+      default: true
+      rank: '1000'
+      prefix: '&F<&7&Oinfidel&r&F> '
+    permissions:
+    - uc.teleportdeny
+    - uc.teleportaccept
+    - uc.tpahere
+    - uc.teleportask
+    - uc.rules
+    - uc.msg
+    - uc.list
+    - uc.kill
+    - uc.help
+    - uc.coordinates
+    - uc.spawn
+    - -modifyworld.*
+  Member:
+    options:
+      rank: '900'
+      prefix: '&F<&3Pilgrim&F> '
+    permissions:
+    - warpportals.enter.hSurvival
+    - randomtp.sign.use
+    - lwc.protect
+    - random.teleport
+    - craftbook.mech.commanditems
+    - uc.home
+    - uc.warplist
+    - uc.ping
+    - uc.realname
+    - uc.delhome
+    - uc.sethome
+    - uc.spawn
+    - modifyworld.*
+    inheritance:
+    - default
+  Donor:
+    options:
+      rank: '800'
+      prefix: '&F<&2Good&ASamaritan&F> '
+    inheritance:
+    - Member
+    permissions:
+    - worldguard.stack
+    - uc.workbench
+    - uc.warp
+  VIP:
+    options:
+      rank: '700'
+      prefix: '&F<&dProphet&F> '
+    inheritance:
+    - Donor
+    permissions:
+    - uc.world.tp
+  Mod:
+    options:
+      prefix: '&F<&0&Kx&4Demi&CGod&0&Kx&F> '
+      rank: '100'
+    inheritance:
+    - VIP
+    permissions:
+    - lwc.shownotices
+    - lwc.mod
+    - comitems.*
+    - uc.smite
+    - uc.ban
+    - uc.ban
+    - uc.banip
+    - worldguard.*
+    - uc.jaillist
+    - uc.freezelist
+    - uc.mutelist
+    - uc.banlist
+    - uc.teleport*
+    - uc.seen
+    - uc.say
+    - uc.ping.others
+    - uc.near
+    - uc.mute
+    - uc.me
+    - uc.kick
+    - uc.inventory
+    - uc.unjail
+    - uc.jail
+    - uc.gamemode
+    - uc.freeze
+    - uc.fly
+    - uc.editsign
+    - uc.deaf
+    - uc.back
+    - uc.afk
+  UberMod:
+    options:
+      prefix: '&F<&0&Kx&5Demi&dGod&0&Kx&F> '
+      rank: '50'
+    inheritance:
+    - Mod
+  Admin:
+    permissions:
+    - permissions.*
+    options:
+      rank: '1'
+      prefix: '&F<&0&Kx&CAvatar&0&Kx&F> '
+    inheritance:
+    - Mod
+schema-version: 1
+users:
+  fe7f5d9d-42ba-45ab-8da8-9d693c60c574:
+    permissions:
+    - uc.sethome.unlimited
+    - permissions.*
+    group:
+    - Admin
+    options:
+      name: lmorgh
+      suffix: ''
+  b58ec07a-a777-40f2-965b-394efd9a0350:
+    group:
+    - Mod
+    options:
+      name: acSlaider
+    permissions:
+    - blivtrails.*
+    - autosort.*
+    - autosort.use
+    - uc.hat
+    - comitems.flyfeather
+    - comitems.lightningrod
+    - minecraft.command.seed
+    - uc.seed
+  2d3b2e70-3505-436d-9ee7-801717796513:
+    group:
+    - Mod
+    options:
+      name: Tofuhazard
+    permissions:
+    - worldedit.*
+    - comitems.*
+    - trail.*
+  4a6f0c50-dda0-4f12-ac40-e9471d8dae1f:
+    group:
+    - Mod
+    options:
+      name: Avogadro90807
+  1b889bd0-fdef-4845-9b98-775d7d74a33b:
+    group:
+    - Member
+    options:
+      name: Alja
+    permissions:
+    - uc.smite
