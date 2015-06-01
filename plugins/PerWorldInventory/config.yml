@@ -15,5 +15,5 @@ player-stats:
   potion-effects: true
   saturation: true
 first-start: false
-manage-gamemodes: false
-separate-gamemode-inventories: false
+manage-gamemodes: true
+separate-gamemode-inventories: true

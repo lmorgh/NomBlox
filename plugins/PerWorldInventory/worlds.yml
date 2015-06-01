@@ -4,8 +4,6 @@ groups:
     - svet
     - svet_nether
     - svet_the_end
-    - drugi
-    - Dark
   creative:
     worlds:
     - creative
