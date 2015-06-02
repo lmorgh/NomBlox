@@ -1,7 +1,0 @@
-%no-default%
-###&7%player% &cexperienced great lag while fighting &f%killer%&c and their &6%weapon%&c.
-###&7%player% &cwould not have died, if &f%killer% &cdidn't hack their &6%weapon% &cinto the game.
-###&7%player% &crealised that &f%killer%&cwasn't actually a friend, &cright after their close encounter with &6[%weapon%]&c. 
-###&7%player% &cfought long and hard, but they were no match for &f%killer%&c's &6[%weapon%]&c.
-###&7%player% &cwas annihilated by &f%killer%&c's &6[%weapon%]&c.
-###&7%player% &cwas brutally executed by &f%killer%&c's &6[%weapon%]&c.

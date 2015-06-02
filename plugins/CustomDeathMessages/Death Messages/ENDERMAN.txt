@@ -1,8 +1,0 @@
-%no-default%
-###&7%player%&c, you don't look at the enderman.
-###&7%player%&c, do you know the enderman, the enderman, the enderman.
-###&7%player% &cgot slapped to death by an enderman.
-###&7%player% &clost a staring competition to enderman.
-###&7%player% &cwas just no match for enderman.
-###&7%player% &cwanted an ender pearl. Enderman said no.
-###&7%player% &clost their life over an ender pearl.

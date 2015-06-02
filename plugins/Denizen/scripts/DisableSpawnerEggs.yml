@@ -1,6 +1,0 @@
-DisableSpawnerEggs:
-  type: world
-  events:
-    on player right clicks mob_spawner with monster_egg:
-    - narrate "<dark_aqua>Using spawn eggs on spawners is disabled in the Realm of Nom!"
-    - determine cancelled

@@ -1,2 +1,0 @@
-&5The server is currently under construction. \n&5If you find a bug please let us know!
-TEST

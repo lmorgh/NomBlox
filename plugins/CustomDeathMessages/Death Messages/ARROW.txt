@@ -1,2 +1,0 @@
-%no-default%
-###&cA stray arrow took &7%player%&c's life.

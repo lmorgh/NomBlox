@@ -1,8 +1,0 @@
-%no-default%
-###&cA skeleton 360 noscoped &7%player%&c.
-###&7%player% &ctook an arrow to the knee... they died.
-###&7%player% &cmessed with the wrong skeleton.
-###&7%player% &cgot their bones counted by skeleton.
-###&7%player% &cgot sniped by an undead archer.
-###&cSkeleton used &7%player% &cfor target practice.
-###&cSkeleton shot first, asked questions later. &7%player% &cdidn't hear the questions.

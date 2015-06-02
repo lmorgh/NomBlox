@@ -1,6 +1,0 @@
-%no-default%
-###&7%player% &cis afraid of spiders, and rightly so.
-###&cArachnophobia is a valid fear for &7%player%&c.
-###&7%player% &cgot caught in a spiderweb. Just in time for lunch!
-###&cSpider proved to be too tough an enemy for &7%player%&c.
-###&7%player% &cended up in a cocoon.
